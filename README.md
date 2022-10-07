@@ -9,7 +9,8 @@ If you have any ideas for more types of subways I could add, or if you have a pa
 ## Todo
 - [ ] Make seats more detailed
 - [ ] Add line number support to subway
-- [ ] Make trains craftable
+- [ ] Make more trains
+- [ ] Add sound effects
 
 ## Licenses
 The code is licensed under the [MIT](https://github.com/SamMatzko/minetest-subways/blob/master/LICENSE.txt); all media (including Blender and Krita files) is licensed under [CC-BY-SA-3.0](http://creativecommons.org/licenses/by-sa/3.0/).
