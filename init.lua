@@ -159,3 +159,13 @@ advtrains.register_wagon("green_subway_wagon", {
 		1.0, 2.5, 1.0
 	},
 }, attrans("Green Subway Car"), "green_subway_wagon_inv.png")
+
+-- Craft recipes
+minetest.register_craft({
+	output="advtrains:green_subway_wagon",
+	recipe={
+		{"default:steelblock", "default:steelblock", "default:steelblock"},
+		{"xpanes:pane_flat", "dye:dark_green", "xpanes:pane_flat"},
+		{"advtrains:wheel", "", "advtrains:wheel"}
+	}
+})
