@@ -32,7 +32,7 @@ local function set_textures(self, data)
 	if data.livery then
 		self.livery = data.livery
 		self.object:set_properties({
-				textures={data.livery, "wagon_interior.png", data.door, "wagon_seat.png"}
+				textures={data.livery, "wagon_interior.png", data.door, "seat.png"}
 		})
 	end
 end
@@ -48,7 +48,7 @@ advtrains.register_wagon("green_subway_wagon", {
     base_texture = "wagon_exterior.png",
     base_livery = "livery.png",
     door_texture = "door.png",
-    door_livery = "livery.png",
+    door_livery = "door_livery.png",
     set_textures = set_textures,
     set_livery = set_livery,
     drives_on={default=true},
