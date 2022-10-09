@@ -17,7 +17,7 @@ local lines = {
 	"#99ff00",
 }
 
-local function set_livery(self, puncher, itemstack,data)
+local function set_livery(self, puncher, itemstack, data)
 	local meta = itemstack:get_meta()
 	local color = meta:get_string("paint_color")
 	local alpha = tonumber(meta:get_string("alpha"))
@@ -28,11 +28,11 @@ local function set_livery(self, puncher, itemstack,data)
 	end
 end
 
-local function	set_textures(self, data)
+local function set_textures(self, data)
 	if data.livery then
 		self.livery = data.livery
 		self.object:set_properties({
-				textures={data.livery, "green_subway_wagon_interior.png", data.door, "green_subway_wagon_seat.png"}
+				textures={data.livery, "wagon_interior.png", data.door, "wagon_seat.png"}
 		})
 	end
 end
@@ -40,15 +40,15 @@ end
 advtrains.register_wagon("green_subway_wagon", {
     mesh="green_subway_wagon.b3d",
     textures={
-		"green_subway_wagon.png",
-		"green_subway_wagon_interior.png",
-		"green_subway_wagon_door.png",
-		"green_subway_wagon_seat.png",
+		"wagon_exterior.png",
+		"wagon_interior.png",
+		"door.png",
+		"seat.png",
 	},
-    base_texture = "green_subway_wagon.png",
-    base_livery = "green_subway_wagon_livery.png",
-    door_texture = "green_subway_wagon_door.png",
-    door_livery = "green_subway_wagon_door_livery.png",
+    base_texture = "wagon_exterior.png",
+    base_livery = "livery.png",
+    door_texture = "door.png",
+    door_livery = "livery.png",
     set_textures = set_textures,
     set_livery = set_livery,
     drives_on={default=true},
@@ -165,17 +165,17 @@ advtrains.register_wagon("green_subway_wagon", {
 			if (tonumber(train.line) <= 9) and (tonumber(train.line) > 0) then
 				if self.livery then
 					self.object:set_properties({
-						textures={self.livery.."^green_subway_wagon_line_"..train.line..".png"}
+						textures={self.livery.."^line_"..train.line..".png"}
 					})
 				else
 					self.object:set_properties({
-						textures={"green_subway_wagon.png^green_subway_wagon_line_"..train.line..".png"}
+						textures={"wagon_exterior.png^line_"..train.line..".png"}
 					})
 				end
 			end
 		end
 	end
-}, attrans("Green Subway Car"), "green_subway_wagon_inv.png")
+}, attrans("Green Subway Car"), "inv.png")
 
 -- Craft recipes
 minetest.register_craft({
