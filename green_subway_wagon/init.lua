@@ -153,6 +153,7 @@ advtrains.register_wagon("green_subway_wagon", {
 		}
 	},
     is_locomotive=true,
+	drops={"default:steelblock 4"},
     visual_size={x=1, y=1},
 	wagon_span=3,
 	collisionbox = {
