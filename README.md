@@ -8,7 +8,7 @@ If you have any ideas for more types of subways I could add, or if you have a pa
 
 ## Todo
 - [ ] Make seats more detailed
-- [ ] Add line number support to subway
+- [X] Add line number support to subway
 - [ ] Make more trains
 - [ ] Add sound effects
 

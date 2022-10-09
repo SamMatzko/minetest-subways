@@ -30,6 +30,7 @@ end
 
 local function	set_textures(self, data)
 	if data.livery then
+		self.livery = data.livery
 		self.object:set_properties({
 				textures={data.livery, "green_subway_wagon_interior.png", data.door, "green_subway_wagon_seat.png"}
 		})
@@ -158,6 +159,22 @@ advtrains.register_wagon("green_subway_wagon", {
 		-1.0, -0.5, -1.0,
 		1.0, 2.5, 1.0
 	},
+	custom_on_step = function(self, dtime, data, train)
+		-- Set the line number for the train
+		if tonumber(train.line) then
+			if (tonumber(train.line) <= 9) and (tonumber(train.line) > 0) then
+				if self.livery then
+					self.object:set_properties({
+						textures={self.livery.."^green_subway_wagon_line_"..train.line..".png"}
+					})
+				else
+					self.object:set_properties({
+						textures={"green_subway_wagon.png^green_subway_wagon_line_"..train.line..".png"}
+					})
+				end
+			end
+		end
+	end
 }, attrans("Green Subway Car"), "green_subway_wagon_inv.png")
 
 -- Craft recipes
