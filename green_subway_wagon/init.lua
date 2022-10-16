@@ -32,7 +32,7 @@ local function set_textures(self, data)
 	if data.livery then
 		self.livery = data.livery
 		self.object:set_properties({
-				textures={data.livery, "wagon_interior.png", data.door, "seat.png"}
+				textures={data.livery, "g_wagon_interior.png", data.door, "g_seat.png"}
 		})
 	end
 end
@@ -40,15 +40,15 @@ end
 advtrains.register_wagon("green_subway_wagon", {
     mesh="green_subway_wagon.b3d",
     textures={
-		"wagon_exterior.png",
-		"wagon_interior.png",
-		"door.png",
-		"seat.png",
+		"g_wagon_exterior.png",
+		"g_wagon_interior.png",
+		"g_door.png",
+		"g_seat.png",
 	},
-    base_texture = "wagon_exterior.png",
-    base_livery = "livery.png",
-    door_texture = "door.png",
-    door_livery = "door_livery.png",
+    base_texture = "g_wagon_exterior.png",
+    base_livery = "g_livery.png",
+    door_texture = "g_door.png",
+    door_livery = "g_door_livery.png",
     set_textures = set_textures,
     set_livery = set_livery,
     drives_on={default=true},
@@ -170,13 +170,13 @@ advtrains.register_wagon("green_subway_wagon", {
 					})
 				else
 					self.object:set_properties({
-						textures={"wagon_exterior.png^line_"..train.line..".png"}
+						textures={"g_wagon_exterior.png^line_"..train.line..".png"}
 					})
 				end
 			end
 		end
 	end
-}, attrans("Green Subway Car"), "inv.png")
+}, attrans("Green Subway Car"), "g_inv.png")
 
 -- Craft recipes
 minetest.register_craft({
