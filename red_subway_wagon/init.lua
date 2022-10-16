@@ -39,12 +39,12 @@ end
 
 advtrains.register_wagon("red_subway_wagon", {
     mesh="red_subway_wagon.b3d",
-    textures={
-		"wagon_exterior.png",
-		"wagon_interior.png",
-		"door.png",
-		"seat.png",
-	},
+    -- textures={
+	-- 	"wagon_exterior.png",
+	-- 	"wagon_interior.png",
+	-- 	"door.png",
+	-- 	"seat.png",
+	-- },
     -- base_texture = "wagon_exterior.png",
     -- base_livery = "livery.png",
     -- door_texture = "door.png",
@@ -155,7 +155,7 @@ advtrains.register_wagon("red_subway_wagon", {
     is_locomotive=true,
 	drops={"default:steelblock 4"},
     visual_size={x=1, y=1},
-	wagon_span=3,
+	wagon_span=3.15,
 	collisionbox = {
 		-1.0, -0.5, -1.0,
 		1.0, 2.5, 1.0
