@@ -166,11 +166,21 @@ advtrains.register_wagon("green_subway_wagon", {
 			if (tonumber(train.line) <= 9) and (tonumber(train.line) > 0) then
 				if self.livery then
 					self.object:set_properties({
-						textures={self.livery.."^line_"..train.line..".png"}
+						textures={
+							self.livery.."^g_line_"..train.line..".png",
+							"g_wagon_interior.png",
+							"g_door.png",
+							"g_seat.png"
+						}
 					})
 				else
 					self.object:set_properties({
-						textures={"g_wagon_exterior.png^line_"..train.line..".png"}
+						textures={
+							"g_wagon_exterior.png^g_line_"..train.line..".png",
+							"g_wagon_interior.png",
+							"g_door.png",
+							"g_seat.png"
+						}
 					})
 				end
 			end
