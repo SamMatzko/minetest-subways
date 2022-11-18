@@ -14,9 +14,3 @@ If you have any ideas for more types of subways I could add, or if you have a pa
 
 ## Licenses
 The code is licensed under the [MIT](https://github.com/SamMatzko/minetest-subways/blob/master/LICENSE.txt); all media (including Blender and Krita files) is licensed under [CC-BY-SA-3.0](http://creativecommons.org/licenses/by-sa/3.0/).
-
-## Screenshots
-![image](https://github.com/SamMatzko/minetest-subways/blob/master/screenshots/Screenshot%20from%202022-10-09%2014-12-15.png)
-![image](https://github.com/SamMatzko/minetest-subways/blob/master/screenshots/Screenshot%20from%202022-10-07%2017-14-17.png)
-![image](https://github.com/SamMatzko/minetest-subways/blob/master/screenshots/Screenshot%20from%202022-10-07%2017-11-05.png)
-![image](https://github.com/SamMatzko/minetest-subways/blob/master/screenshots/Screenshot%20from%202022-10-07%2017-12-00.png)
