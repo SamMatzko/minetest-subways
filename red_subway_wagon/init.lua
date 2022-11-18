@@ -39,12 +39,21 @@ end
 
 advtrains.register_wagon("red_subway_wagon", {
     mesh="red_subway_wagon.b3d",
-    -- textures={
-	-- 	"wagon_exterior.png",
-	-- 	"wagon_interior.png",
-	-- 	"door.png",
-	-- 	"seat.png",
-	-- },
+    textures={
+		"wagon_exterior.png",
+		"wagon_interior.png",
+		"chassis_accessories.png",
+		"coupler.png",
+		"wheel_truck.png",
+		"wheel_truck.png",
+		"coupler.png",
+		"doors.png",
+		"glasses.png",
+		"wheels.png",
+		"wheels.png",
+		"wheels.png",
+		"wheels.png",
+	},
     -- base_texture = "wagon_exterior.png",
     -- base_livery = "livery.png",
     -- door_texture = "door.png",
