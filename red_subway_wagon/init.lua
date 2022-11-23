@@ -194,8 +194,7 @@ advtrains.register_wagon("red_subway_wagon", {
 				if self.livery then
 					self.object:set_properties({
 						textures={
-							-- self.livery.."^r_line_"..train.line..".png",
-							self.livery,
+							self.livery.."^r_line_"..train.line..".png",
 							"r_wagon_interior.png",
 							"r_chassis_accessories.png",
 							"r_coupler.png",
@@ -215,8 +214,7 @@ advtrains.register_wagon("red_subway_wagon", {
 				else
 					self.object:set_properties({
 						textures={
-							-- "r_wagon_exterior.png^r_line_"..train.line..".png",
-							"r_wagon_exterior.png",
+							"r_wagon_exterior.png^r_line_"..train.line..".png",
 							"r_wagon_interior.png",
 							"r_chassis_accessories.png",
 							"r_coupler.png",
