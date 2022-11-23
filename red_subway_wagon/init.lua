@@ -24,6 +24,7 @@ local function set_livery(self, puncher, itemstack, data)
 	if color and color:find("^#%x%x%x%x%x%x$") then
 		data.livery = self.base_texture.."^("..self.base_livery.."^[colorize:"..color..":255)"
 		data.door = self.door_texture.."^("..self.door_livery.."^[colorize:"..color..":255)"
+		data.end_door = self.end_door_texture.."^("..self.end_door_livery.."^[colorize:"..color..":255)"
 		self:set_textures(data)
 	end
 end
@@ -31,8 +32,26 @@ end
 local function set_textures(self, data)
 	if data.livery then
 		self.livery = data.livery
+		self.door_livery_data = data.door
+		self.end_door_livery_data = data.end_door
 		self.object:set_properties({
-				textures={data.livery, "r_wagon_interior.png", data.door, "r_seat.png"}
+				textures={
+					data.livery,
+					"r_wagon_interior.png",
+					"r_chassis_accessories.png",
+					"r_coupler.png",
+					"r_wheel_truck.png",
+					"r_wheel_truck.png",
+					"r_coupler.png",
+					data.door,
+					data.end_door,
+					"r_glasses.png",
+					"r_seats.png",
+					"r_wheels.png",
+					"r_wheels.png",
+					"r_wheels.png",
+					"r_wheels.png",
+				}
 		})
 	end
 end
@@ -56,12 +75,14 @@ advtrains.register_wagon("red_subway_wagon", {
 		"r_wheels.png",
 		"r_wheels.png",
 	},
-    -- base_texture = "r_wagon_exterior.png",
-    -- base_livery = "r_livery.png",
-    -- door_texture = "r_door.png",
-    -- door_livery = "r_door_livery.png",
-    -- set_textures = set_textures,
-    -- set_livery = set_livery,
+    base_texture = "r_wagon_exterior.png",
+    base_livery = "r_livery.png",
+    door_texture = "r_doors.png",
+    door_livery = "r_door_livery.png",
+	end_door_texture = "r_end_doors.png",
+	end_door_livery = "r_end_door_livery.png",
+    set_textures = set_textures,
+    set_livery = set_livery,
     drives_on={default=true},
     max_speed=15,
     seats={
@@ -166,22 +187,56 @@ advtrains.register_wagon("red_subway_wagon", {
 		-1.0, -0.5, -1.0,
 		1.0, 2.5, 1.0
 	},
-	-- custom_on_step = function(self, dtime, data, train)
-	-- 	-- Set the line number for the train
-	-- 	if tonumber(train.line) then
-	-- 		if (tonumber(train.line) <= 9) and (tonumber(train.line) > 0) then
-	-- 			if self.livery then
-	-- 				self.object:set_properties({
-	-- 					textures={self.livery.."^line_"..train.line..".png"}
-	-- 				})
-	-- 			else
-	-- 				self.object:set_properties({
-	-- 					textures={"r_wagon_exterior.png^line_"..train.line..".png"}
-	-- 				})
-	-- 			end
-	-- 		end
-	-- 	end
-	-- end
+	custom_on_step = function(self, dtime, data, train)
+		-- Set the line number for the train
+		if tonumber(train.line) then
+			if (tonumber(train.line) <= 9) and (tonumber(train.line) > 0) then
+				if self.livery then
+					self.object:set_properties({
+						textures={
+							-- self.livery.."^r_line_"..train.line..".png",
+							self.livery,
+							"r_wagon_interior.png",
+							"r_chassis_accessories.png",
+							"r_coupler.png",
+							"r_wheel_truck.png",
+							"r_wheel_truck.png",
+							"r_coupler.png",
+							"r_doors.png^"..self.door_livery_data,
+							"r_end_doors.png^"..self.end_door_livery_data,
+							"r_glasses.png",
+							"r_seats.png",
+							"r_wheels.png",
+							"r_wheels.png",
+							"r_wheels.png",
+							"r_wheels.png",
+						}
+					})
+				else
+					self.object:set_properties({
+						textures={
+							-- "r_wagon_exterior.png^r_line_"..train.line..".png",
+							"r_wagon_exterior.png",
+							"r_wagon_interior.png",
+							"r_chassis_accessories.png",
+							"r_coupler.png",
+							"r_wheel_truck.png",
+							"r_wheel_truck.png",
+							"r_coupler.png",
+							"r_doors.png",
+							"r_end_doors.png",
+							"r_glasses.png",
+							"r_seats.png",
+							"r_wheels.png",
+							"r_wheels.png",
+							"r_wheels.png",
+							"r_wheels.png",
+						}
+					})
+				end
+			end
+		end
+	end
 }, attrans("Red Subway Car"), "r_inv.png")
 
 -- Craft recipes
