@@ -32,7 +32,7 @@ local function set_textures(self, data)
 	if data.livery then
 		self.livery = data.livery
 		self.object:set_properties({
-				textures={data.livery, "wagon_interior.png", data.door, "seat.png"}
+				textures={data.livery, "r_wagon_interior.png", data.door, "r_seat.png"}
 		})
 	end
 end
@@ -40,26 +40,26 @@ end
 advtrains.register_wagon("red_subway_wagon", {
     mesh="red_subway_wagon.b3d",
     textures={
-		"wagon_exterior.png",
-		"wagon_interior.png",
-		"chassis_accessories.png",
-		"coupler.png",
-		"wheel_truck.png",
-		"wheel_truck.png",
-		"coupler.png",
-		"doors.png",
-		"end_doors.png",
-		"glasses.png",
-		"seats.png",
-		"wheels.png",
-		"wheels.png",
-		"wheels.png",
-		"wheels.png",
+		"r_wagon_exterior.png",
+		"r_wagon_interior.png",
+		"r_chassis_accessories.png",
+		"r_coupler.png",
+		"r_wheel_truck.png",
+		"r_wheel_truck.png",
+		"r_coupler.png",
+		"r_doors.png",
+		"r_end_doors.png",
+		"r_glasses.png",
+		"r_seats.png",
+		"r_wheels.png",
+		"r_wheels.png",
+		"r_wheels.png",
+		"r_wheels.png",
 	},
-    -- base_texture = "wagon_exterior.png",
-    -- base_livery = "livery.png",
-    -- door_texture = "door.png",
-    -- door_livery = "door_livery.png",
+    -- base_texture = "r_wagon_exterior.png",
+    -- base_livery = "r_livery.png",
+    -- door_texture = "r_door.png",
+    -- door_livery = "r_door_livery.png",
     -- set_textures = set_textures,
     -- set_livery = set_livery,
     drives_on={default=true},
@@ -181,13 +181,13 @@ advtrains.register_wagon("red_subway_wagon", {
 	-- 				})
 	-- 			else
 	-- 				self.object:set_properties({
-	-- 					textures={"wagon_exterior.png^line_"..train.line..".png"}
+	-- 					textures={"r_wagon_exterior.png^line_"..train.line..".png"}
 	-- 				})
 	-- 			end
 	-- 		end
 	-- 	end
 	-- end
-}, attrans("Red Subway Car"), "inv.png")
+}, attrans("Red Subway Car"), "r_inv.png")
 
 -- Craft recipes
 minetest.register_craft({
