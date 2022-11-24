@@ -38,7 +38,9 @@ local function set_textures(self, data)
 	end
 end
 
-advtrains.register_wagon("green_subway_wagon", {
+local use_attachment_patch = advtrains_attachment_offset_patch and advtrains_attachment_offset_patch.setup_advtrains_wagon
+
+local subway_wagon_def = {
     mesh="green_subway_wagon.b3d",
     textures={
 		"g_wagon_exterior.png",
@@ -58,73 +60,73 @@ advtrains.register_wagon("green_subway_wagon", {
 		{
 			name="Driver stand",
 			attach_offset={x=-4, y=0.5, z=18},
-			view_offset={x=0, y=0.5, z=0},
+			view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=0.5, z=0},
 			group="driver_stand",
 		},
         {
 			name="1",
 			attach_offset={x=-4, y=0.5, z=10},-- 10
-			view_offset={x=0, y=0.5, z=0},
+			view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=0.5, z=0},
 			group="passenger",
 		},
 		{
 			name="2",
 			attach_offset={x=-4, y=0.5, z=8},
-			view_offset={x=0, y=0.5, z=0},
+			view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=0.5, z=0},
 			group="passenger",
 		},
 		{
 			name="3",
 			attach_offset={x=-4, y=0.5, z=0},
-			view_offset={x=0, y=0.5, z=0},
+			view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=0.5, z=0},
 			group="passenger",
 		},
 		{
 			name="4",
 			attach_offset={x=-4, y=0.5, z=-8},
-			view_offset={x=0, y=0.5, z=0},
+			view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=0.5, z=0},
 			group="passenger",
 		},
 		{
 			name="5",
 			attach_offset={x=-4, y=0.5, z=-18},
-			view_offset={x=0, y=0.5, z=0},
+			view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=0.5, z=0},
 			group="passenger",
 		},
 		{
 			name="6",
 			attach_offset={x=-4, y=0.5, z=-24},
-			view_offset={x=0, y=0.5, z=0},
+			view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=0.5, z=0},
 			group="passenger",
 		},
 		{
 			name="7",
 			attach_offset={x=-4, y=0.5, z=8},
-			view_offset={x=0, y=0.5, z=0},
+			view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=0.5, z=0},
 			group="passenger",
 		},
 		{
 			name="8",
 			attach_offset={x=-4, y=0.5, z=0},
-			view_offset={x=0, y=0.5, z=0},
+			view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=0.5, z=0},
 			group="passenger",
 		},
 		{
 			name="9",
 			attach_offset={x=-4, y=0.5, z=-8},
-			view_offset={x=0, y=0.5, z=0},
+			view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=0.5, z=0},
 			group="passenger",
 		},
 		{
 			name="10",
 			attach_offset={x=-4, y=0.5, z=-18},
-			view_offset={x=0, y=0.5, z=0},
+			view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=0.5, z=0},
 			group="passenger",
 		},
 		{
 			name="11",
 			attach_offset={x=-4, y=0.5, z=-24},
-			view_offset={x=0, y=0.5, z=0},
+			view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=0.5, z=0},
 			group="passenger",
 		},
     },
@@ -187,7 +189,11 @@ advtrains.register_wagon("green_subway_wagon", {
 			end
 		end
 	end
-}, attrans("Green Subway Car"), "g_inv.png")
+}
+if use_attachment_patch then
+	advtrains_attachment_offset_patch.setup_advtrains_wagon(subway_wagon_def);
+end
+advtrains.register_wagon("green_subway_wagon", subway_wagon_def, attrans("Green Subway Car"), "g_inv.png")
 
 -- Craft recipes
 minetest.register_craft({
