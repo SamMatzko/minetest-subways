@@ -165,29 +165,53 @@ local subway_wagon_def = {
 	},
 	custom_on_step = function(self, dtime, data, train)
 		-- Set the line number for the train
-		if tonumber(train.line) then
-			if (tonumber(train.line) <= 9) and (tonumber(train.line) > 0) then
-				if self.livery then
-					self.object:set_properties({
-						textures={
-							self.livery.."^g_line_"..train.line..".png",
-							"g_wagon_interior.png",
-							"g_door.png^"..self.door_livery_data,
-							"g_seat.png"
-						}
-					})
-				else
-					self.object:set_properties({
-						textures={
-							"g_wagon_exterior.png^g_line_"..train.line..".png",
-							"g_wagon_interior.png",
-							"g_door.png",
-							"g_seat.png"
-						}
-					})
-				end
-			end
+		local line = ""
+		local line_number = tonumber(train.line)
+		if line_number and line_number <= 9 and line_number > 0 then
+			line = "^g_line_"..train.line..".png"
 		end
+		if self.livery then
+			self.object:set_properties({
+				textures={
+					self.livery..line,
+					"g_wagon_interior.png",
+					"g_door.png^"..self.door_livery_data,
+					"g_seat.png"
+				}
+			})
+		else
+			self.object:set_properties({
+				textures={
+					"g_wagon_exterior.png"..line,
+					"g_wagon_interior.png",
+					"g_door.png",
+					"g_seat.png"
+				}
+			})
+		end
+		-- if tonumber(train.line) then
+		-- 	if (tonumber(train.line) <= 9) and (tonumber(train.line) > 0) then
+		-- 		if self.livery then
+		-- 			self.object:set_properties({
+		-- 				textures={
+		-- 					self.livery.."^g_line_"..train.line..".png",
+		-- 					"g_wagon_interior.png",
+		-- 					"g_door.png^"..self.door_livery_data,
+		-- 					"g_seat.png"
+		-- 				}
+		-- 			})
+		-- 		else
+		-- 			self.object:set_properties({
+		-- 				textures={
+		-- 					"g_wagon_exterior.png^g_line_"..train.line..".png",
+		-- 					"g_wagon_interior.png",
+		-- 					"g_door.png",
+		-- 					"g_seat.png"
+		-- 				}
+		-- 			})
+		-- 		end
+		-- 	end
+		-- end
 	end
 }
 if use_attachment_patch then
