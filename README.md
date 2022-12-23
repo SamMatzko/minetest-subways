@@ -14,5 +14,13 @@ If you have any ideas for more types of subways I could add, or if you have a pa
 - [X] Make more trains
 - [ ] Add sound effects
 
+## Contributors
+
+Of course without the bugfixes and features provided by other awesome users, this mod just wouldn't be the same. If you submit a pull request that gets merged, you will be added to this list, which will be displayed on [GitHub](https://github.com/SamMazko/minetest-subways) and [ContentDB](https://content.minetest.net/packages/sylvester_kruin/subways/):
+
+- [**JamesTobin**](https://github.com/JamesTobin)
+- [**Marnack**](https://github.com/Marnack)
+
+
 ## Licenses
 The code is licensed under the [MIT](https://github.com/SamMatzko/minetest-subways/blob/master/LICENSE.txt); all media (including Blender and Krita files) is licensed under [CC-BY-SA-3.0](http://creativecommons.org/licenses/by-sa/3.0/).
