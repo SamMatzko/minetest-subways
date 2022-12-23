@@ -191,50 +191,51 @@ local subway_wagon_def = {
 	},
 	custom_on_step = function(self, dtime, data, train)
 		-- Set the line number for the train
-		if tonumber(train.line) then
-			if (tonumber(train.line) <= 9) and (tonumber(train.line) > 0) then
-				if self.livery then
-					self.object:set_properties({
-						textures={
-							self.livery.."^r_line_"..train.line..".png",
-							"r_wagon_interior.png",
-							"r_chassis_accessories.png",
-							"r_coupler.png",
-							"r_wheel_truck.png",
-							"r_wheel_truck.png",
-							"r_coupler.png",
-							"r_doors.png^"..self.door_livery_data,
-							"r_end_doors.png^"..self.end_door_livery_data,
-							"r_glasses.png",
-							"r_seats.png",
-							"r_wheels.png",
-							"r_wheels.png",
-							"r_wheels.png",
-							"r_wheels.png",
-						}
-					})
-				else
-					self.object:set_properties({
-						textures={
-							"r_wagon_exterior.png^r_line_"..train.line..".png",
-							"r_wagon_interior.png",
-							"r_chassis_accessories.png",
-							"r_coupler.png",
-							"r_wheel_truck.png",
-							"r_wheel_truck.png",
-							"r_coupler.png",
-							"r_doors.png",
-							"r_end_doors.png",
-							"r_glasses.png",
-							"r_seats.png",
-							"r_wheels.png",
-							"r_wheels.png",
-							"r_wheels.png",
-							"r_wheels.png",
-						}
-					})
-				end
-			end
+		local line = ""
+		local line_number = tonumber(train.line)
+		if line_number and line_number <= 9 and line_number > 0 then
+			line = "^r_line_"..train.line..".png"
+		end
+		if self.livery then
+			self.object:set_properties({
+				textures={
+					self.livery..line,
+					"r_wagon_interior.png",
+					"r_chassis_accessories.png",
+					"r_coupler.png",
+					"r_wheel_truck.png",
+					"r_wheel_truck.png",
+					"r_coupler.png",
+					"r_doors.png^"..self.door_livery_data,
+					"r_end_doors.png^"..self.end_door_livery_data,
+					"r_glasses.png",
+					"r_seats.png",
+					"r_wheels.png",
+					"r_wheels.png",
+					"r_wheels.png",
+					"r_wheels.png",
+				}
+			})
+		else
+			self.object:set_properties({
+				textures={
+					"r_wagon_exterior.png"..line,
+					"r_wagon_interior.png",
+					"r_chassis_accessories.png",
+					"r_coupler.png",
+					"r_wheel_truck.png",
+					"r_wheel_truck.png",
+					"r_coupler.png",
+					"r_doors.png",
+					"r_end_doors.png",
+					"r_glasses.png",
+					"r_seats.png",
+					"r_wheels.png",
+					"r_wheels.png",
+					"r_wheels.png",
+					"r_wheels.png",
+				}
+			})
 		end
 	end
 }
