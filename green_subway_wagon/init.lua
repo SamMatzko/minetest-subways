@@ -5,17 +5,146 @@ else
     S = function(s,a,...)a={a,...}return s:gsub("@(%d+)",function(n)return a[tonumber(n)]end)end
 end
 
-local lines = {
-	"#ff1111",
-	"#1111ff",
-	"#ff9900",
-	"#11ff11",
-	"#9900ff",
-	"#00ffff",
-	"#ff9999",
-	"#ff00ff",
-	"#99ff00",
+-- Begin support code for AdvTrains Livery Designer
+
+local use_advtrains_livery_designer = minetest.get_modpath( "advtrains_livery_designer" ) and advtrains_livery_designer
+local mod_name = "subways_green_subway_wagon"
+
+local livery_templates = {
+	["advtrains:green_subway_wagon"] = {
+		{
+			name = "Basic Window Band",
+			designer = "Marnack",
+			texture_license = "CC-BY-SA-3.0",
+			texture_creator = "Samuel Matzko",
+			notes = "This template supports independent color overrides of the exterior accents, side doors and seats.",
+			base_textures = {
+				"g_wagon_exterior.png",
+				"g_wagon_interior.png",
+				"g_door.png",
+				"g_seat.png"
+			},
+			overlays = {
+				[1] = {name = "Exterior Accents",	slot_idx = 1,	texture = "g_livery.png"},
+				[2] = {name = "Side Doors",			slot_idx = 3,	texture = "g_door_livery.png"},
+				[3] = {name = "Seats",				slot_idx = 4,	texture = "g_seat_livery.png",		alpha = 248},
+			},
+		},
+	},
 }
+
+local predefined_liveries = {
+	{
+		name = "Sea Green Special",
+		notes = "",
+		livery_design = {
+			livery_template_name = "Basic Window Band",
+			overlays = {
+				[1] = {id = 1,	color = "#2E8B57"},	-- "Exterior Accents",
+				[2] = {id = 2,	color = "#FFFFFF"},	-- "Side Doors",
+				[3] = {id = 3,	color = "#2E8B57"},	-- "Seats",
+			},
+		},
+	},
+	{
+		name = "Green Gazebo",
+		notes = "",
+		livery_design = {
+			livery_template_name = "Basic Window Band",
+			overlays = {
+				[1] = {id = 1,	color = "#006400"},	-- "Exterior Accents",
+				[2] = {id = 2,	color = "#008000"},	-- "Side Doors",
+				[3] = {id = 3,	color = "#006400"},	-- "Seats",
+			},
+		},
+	},
+	{
+		name = "Tan Caravan",
+		notes = "",
+		livery_design = {
+			livery_template_name = "Basic Window Band",
+			overlays = {
+				[1] = {id = 1,	color = "#D2B48C"},	-- "Exterior Accents",
+				[2] = {id = 2,	color = "#F5DEB3"},	-- "Side Doors",
+				[3] = {id = 3,	color = "#B2793E"},	-- "Seats",
+			},
+		},
+	},
+}
+
+if use_advtrains_livery_designer then
+	-- This function is called by the advtrains_livery_designer tool whenever the player
+	-- activates the "Apply" button.
+	-- This implementation is specific to green_subway_wagon. A more complex
+	-- implementation may be needed if other wagons or livery templates are added.
+	local function apply_wagon_livery_textures(player, wagon, textures)
+		if wagon and textures and textures[1] then
+			local data = advtrains.wagons[wagon.id]
+			data.livery = textures[1]
+			data.door = textures[3]
+			data.seats = textures[4]
+			wagon:set_textures(data)
+		end
+	end
+
+	-- Register this mod and its livery function with the advtrains_livery_designer tool.
+	advtrains_livery_designer.register_mod(mod_name, apply_wagon_livery_textures)
+
+	-- Register this mod's wagons and livery templates.
+	for wagon_type, wagon_livery_templates in pairs(livery_templates) do
+		advtrains_livery_database.register_wagon(wagon_type, mod_name)
+		for _, livery_template in ipairs(wagon_livery_templates) do
+			advtrains_livery_database.add_livery_template(
+				wagon_type,
+				livery_template.name,
+				livery_template.base_textures,
+				mod_name,
+				(livery_template.overlays and #livery_template.overlays) or 0,
+				livery_template.designer,
+				livery_template.texture_license,
+				livery_template.texture_creator,
+				livery_template.notes
+			)
+			if livery_template.overlays then
+				for overlay_id, overlay in ipairs(livery_template.overlays) do
+					advtrains_livery_database.add_livery_template_overlay(
+						wagon_type,
+						livery_template.name,
+						overlay_id,
+						overlay.name,
+						overlay.slot_idx,
+						overlay.texture,
+						overlay.alpha
+					)
+				end
+			end
+		end
+	end
+
+	-- Register this mod's predefined wagon liveries.
+	for _, predefined_livery in ipairs(predefined_liveries) do
+		local livery_design = predefined_livery.livery_design
+		livery_design.wagon_type = "advtrains:green_subway_wagon"
+		advtrains_livery_database.add_predefined_livery(
+			predefined_livery.name,
+			livery_design,
+			mod_name,
+			predefined_livery.notes
+		)
+	end
+end
+
+local function update_livery(wagon, puncher)
+	local itemstack = puncher:get_wielded_item()
+	local item_name = itemstack:get_name()
+	if use_advtrains_livery_designer and item_name == advtrains_livery_designer.tool_name then
+		advtrains_livery_designer.activate_tool(puncher, wagon, mod_name)
+		return true
+	end
+	return false
+end
+
+-- End of support code for AdvTrains Livery Designer
 
 local function set_livery(self, puncher, itemstack, data)
 	local meta = itemstack:get_meta()
@@ -24,6 +153,7 @@ local function set_livery(self, puncher, itemstack, data)
 	if color and color:find("^#%x%x%x%x%x%x$") then
 		data.livery = self.base_texture.."^("..self.base_livery.."^[colorize:"..color..":255)"
 		data.door = self.door_texture.."^("..self.door_livery.."^[colorize:"..color..":255)"
+		data.seats = self.seat_texture
 		self:set_textures(data)
 	end
 end
@@ -32,8 +162,9 @@ local function set_textures(self, data)
 	if data.livery then
 		self.livery = data.livery
 		self.door_livery_data = data.door
+		self.seat_livery_data = data.seats
 		self.object:set_properties({
-				textures={data.livery, "g_wagon_interior.png", data.door, "g_seat.png"}
+				textures={data.livery, "g_wagon_interior.png", data.door, data.seats}
 		})
 	end
 end
@@ -50,10 +181,16 @@ local subway_wagon_def = {
 	},
     base_texture = "g_wagon_exterior.png",
     base_livery = "g_livery.png",
+	seat_texture = "g_seat.png",
+	seat_livery = "g_seat_livery.png",
     door_texture = "g_door.png",
     door_livery = "g_door_livery.png",
+	seat_texture = "g_seat.png",
     set_textures = set_textures,
     set_livery = set_livery,
+	custom_may_destroy = function(wagon, puncher, time_from_last_punch, tool_capabilities, direction)
+		return not update_livery(wagon, puncher)
+	end,
     drives_on={default=true},
     max_speed=15,
     seats={
@@ -176,7 +313,7 @@ local subway_wagon_def = {
 					self.livery..line,
 					"g_wagon_interior.png",
 					"g_door.png^"..self.door_livery_data,
-					"g_seat.png"
+					"g_seat.png^"..(self.seat_livery_data or "")
 				}
 			})
 		else
@@ -189,29 +326,6 @@ local subway_wagon_def = {
 				}
 			})
 		end
-		-- if tonumber(train.line) then
-		-- 	if (tonumber(train.line) <= 9) and (tonumber(train.line) > 0) then
-		-- 		if self.livery then
-		-- 			self.object:set_properties({
-		-- 				textures={
-		-- 					self.livery.."^g_line_"..train.line..".png",
-		-- 					"g_wagon_interior.png",
-		-- 					"g_door.png^"..self.door_livery_data,
-		-- 					"g_seat.png"
-		-- 				}
-		-- 			})
-		-- 		else
-		-- 			self.object:set_properties({
-		-- 				textures={
-		-- 					"g_wagon_exterior.png^g_line_"..train.line..".png",
-		-- 					"g_wagon_interior.png",
-		-- 					"g_door.png",
-		-- 					"g_seat.png"
-		-- 				}
-		-- 			})
-		-- 		end
-		-- 	end
-		-- end
 	end
 }
 if use_attachment_patch then
