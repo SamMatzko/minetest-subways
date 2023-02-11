@@ -5,17 +5,163 @@ else
     S = function(s,a,...)a={a,...}return s:gsub("@(%d+)",function(n)return a[tonumber(n)]end)end
 end
 
-local lines = {
-	"#ff1111",
-	"#1111ff",
-	"#ff9900",
-	"#11ff11",
-	"#9900ff",
-	"#00ffff",
-	"#ff9999",
-	"#ff00ff",
-	"#99ff00",
+-- Begin support code for AdvTrains Livery Designer
+
+local use_advtrains_livery_designer = minetest.get_modpath( "advtrains_livery_designer" ) and advtrains_livery_designer
+local mod_name = "subways_red_subway_wagon"
+
+local livery_templates = {
+	["advtrains:red_subway_wagon"] = {
+		{
+			name = "Basic Two-Tone",
+			designer = "Marnack",
+			texture_license = "CC-BY-SA-3.0",
+			texture_creator = "Samuel Matzko",
+			notes = "This template supports independent color overrides of the lower half of the the exterior walls, side doors, end doors and seats.",
+			base_textures = {
+				"r_wagon_exterior.png",
+				"r_wagon_interior.png",
+				"r_chassis_accessories.png",
+				"r_coupler.png",
+				"r_wheel_truck.png",
+				"r_wheel_truck.png",
+				"r_coupler.png",
+				"r_doors.png",
+				"r_end_doors.png",
+				"r_glasses.png",
+				"r_seats.png",
+				"r_wheels.png",
+				"r_wheels.png",
+				"r_wheels.png",
+				"r_wheels.png",
+			},
+			overlays = {
+				[1] = {name = "Exterior Walls",		slot_idx = 1,	texture = "r_livery.png"},
+				[2] = {name = "Side Doors",			slot_idx = 8,	texture = "r_door_livery.png"},
+				[3] = {name = "End Doors",			slot_idx = 9,	texture = "r_end_door_livery.png"},
+				[4] = {name = "Seats",				slot_idx = 11,	texture = "r_seat_livery.png",		alpha = 248},
+			},
+		},
+	},
 }
+
+local predefined_liveries = {
+	{
+		name = "Crimson Special",
+		notes = "",
+		livery_design = {
+			livery_template_name = "Basic Two-Tone",
+			overlays = {
+				[1] = {id = 1,	color = "#DC143C"},	-- "Exterior Walls",
+				[2] = {id = 2,	color = "#FFFFFF"},	-- "Side Doors",
+				[3] = {id = 3,	color = "#FFFFFF"},	-- "End Doors",
+				[4] = {id = 4,	color = "#800000"},	-- "Seats",
+			},
+		},
+	},
+	{
+		name = "Maroon Lagoon",
+		notes = "",
+		livery_design = {
+			livery_template_name = "Basic Two-Tone",
+			overlays = {
+				[1] = {id = 1,	color = "#800000"},	-- "Exterior Walls",
+				[2] = {id = 2,	color = "#C00000"},	-- "Side Doors",
+				[3] = {id = 3,	color = "#800000"},	-- "End Doors",
+				[4] = {id = 4,	color = "#800000"},	-- "Seats",
+			},
+		},
+	},
+	{
+		name = "Regal Rambler",
+		notes = "",
+		livery_design = {
+			livery_template_name = "Basic Two-Tone",
+			overlays = {
+				[1] = {id = 1,	color = "#998822"},	-- "Exterior Walls",
+				[2] = {id = 2,	color = "#998822"},	-- "Side Doors",
+				[3] = {id = 3,	color = "#998822"},	-- "End Doors",
+				[4] = {id = 4,	color = "#998822"},	-- "Seats",
+			},
+		},
+	},
+}
+
+if use_advtrains_livery_designer then
+	-- This function is called by the advtrains_livery_designer tool whenever the player
+	-- activates the "Apply" button.
+	-- This implementation is specific to red_subway_wagon. A more complex
+	-- implementation may be needed if other wagons or livery templates are added.
+	local function apply_wagon_livery_textures(player, wagon, textures)
+		if wagon and textures and textures[1] then
+			local data = advtrains.wagons[wagon.id]
+			data.livery = textures[1]
+			data.door = textures[8]
+			data.end_door = textures[9]
+			data.seats = textures[11]
+			wagon:set_textures(data)
+		end
+	end
+
+	-- Register this mod and its livery function with the advtrains_livery_designer tool.
+	advtrains_livery_designer.register_mod(mod_name, apply_wagon_livery_textures)
+
+	-- Register this mod's wagons and livery templates.
+	for wagon_type, wagon_livery_templates in pairs(livery_templates) do
+		advtrains_livery_database.register_wagon(wagon_type, mod_name)
+		for _, livery_template in ipairs(wagon_livery_templates) do
+			advtrains_livery_database.add_livery_template(
+				wagon_type,
+				livery_template.name,
+				livery_template.base_textures,
+				mod_name,
+				(livery_template.overlays and #livery_template.overlays) or 0,
+				livery_template.designer,
+				livery_template.texture_license,
+				livery_template.texture_creator,
+				livery_template.notes
+			)
+			if livery_template.overlays then
+				for overlay_id, overlay in ipairs(livery_template.overlays) do
+					advtrains_livery_database.add_livery_template_overlay(
+						wagon_type,
+						livery_template.name,
+						overlay_id,
+						overlay.name,
+						overlay.slot_idx,
+						overlay.texture,
+						overlay.alpha
+					)
+				end
+			end
+		end
+	end
+
+	-- Register this mod's predefined wagon liveries.
+	for _, predefined_livery in ipairs(predefined_liveries) do
+		local livery_design = predefined_livery.livery_design
+		livery_design.wagon_type = "advtrains:red_subway_wagon"
+		advtrains_livery_database.add_predefined_livery(
+			predefined_livery.name,
+			livery_design,
+			mod_name,
+			predefined_livery.notes
+		)
+	end
+end
+
+
+local function update_livery(wagon, puncher)
+	local itemstack = puncher:get_wielded_item()
+	local item_name = itemstack:get_name()
+	if use_advtrains_livery_designer and item_name == advtrains_livery_designer.tool_name then
+		advtrains_livery_designer.activate_tool(puncher, wagon, mod_name)
+		return true
+	end
+	return false
+end
+
+-- End of support code for AdvTrains Livery Designer
 
 local function set_livery(self, puncher, itemstack, data)
 	local meta = itemstack:get_meta()
@@ -25,6 +171,7 @@ local function set_livery(self, puncher, itemstack, data)
 		data.livery = self.base_texture.."^("..self.base_livery.."^[colorize:"..color..":255)"
 		data.door = self.door_texture.."^("..self.door_livery.."^[colorize:"..color..":255)"
 		data.end_door = self.end_door_texture.."^("..self.end_door_livery.."^[colorize:"..color..":255)"
+		data.seats = self.seat_texture
 		self:set_textures(data)
 	end
 end
@@ -34,6 +181,7 @@ local function set_textures(self, data)
 		self.livery = data.livery
 		self.door_livery_data = data.door
 		self.end_door_livery_data = data.end_door
+		self.seat_livery_data = data.seats
 		self.object:set_properties({
 				textures={
 					data.livery,
@@ -46,7 +194,7 @@ local function set_textures(self, data)
 					data.door,
 					data.end_door,
 					"r_glasses.png",
-					"r_seats.png",
+					data.seats,
 					"r_wheels.png",
 					"r_wheels.png",
 					"r_wheels.png",
@@ -83,8 +231,12 @@ local subway_wagon_def = {
     door_livery = "r_door_livery.png",
 	end_door_texture = "r_end_doors.png",
 	end_door_livery = "r_end_door_livery.png",
+	seat_texture = "r_seats.png",
     set_textures = set_textures,
     set_livery = set_livery,
+	custom_may_destroy = function(wagon, puncher, time_from_last_punch, tool_capabilities, direction)
+		return not update_livery(wagon, puncher)
+	end,
     drives_on={default=true},
     max_speed=15,
     seats={
@@ -209,7 +361,7 @@ local subway_wagon_def = {
 					"r_doors.png^"..self.door_livery_data,
 					"r_end_doors.png^"..self.end_door_livery_data,
 					"r_glasses.png",
-					"r_seats.png",
+					"r_seats.png^"..(self.seat_livery_data or ""),
 					"r_wheels.png",
 					"r_wheels.png",
 					"r_wheels.png",
