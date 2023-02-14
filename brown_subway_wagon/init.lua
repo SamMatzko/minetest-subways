@@ -316,8 +316,8 @@ local subway_locomotive_def = {
 		-1.0, -0.5, -1.0,
 		1.0, 2.5, 1.0
 	},
-	coupler_types_front = {tomlinson=true},
-	coupler_types_back = {tomlinson=true}
+	coupler_types_front = {Tomlinson=true},
+	coupler_types_back = {Tomlinson=true}
 }
 
 -- The definition for brown_subway_wagon
@@ -381,9 +381,9 @@ local subway_wagon_def = {
 	end,
     seats={
 		-- Left side seats
-        {
+		{
 			name="1",
-			attach_offset={x=-4, y=3.5, z=4},-- 4
+			attach_offset={x=-4, y=3.5, z=28},
 			view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=3.5, z=0},
 			group="passenger",
 		},
@@ -395,50 +395,62 @@ local subway_wagon_def = {
 		},
 		{
 			name="3",
-			attach_offset={x=-4, y=3.5, z=-4},
+			attach_offset={x=-4, y=3.5, z=4},-- 4
 			view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=3.5, z=0},
 			group="passenger",
 		},
 		{
 			name="4",
-			attach_offset={x=-4, y=3.5, z=-10},
+			attach_offset={x=-4, y=3.5, z=-4},
 			view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=3.5, z=0},
 			group="passenger",
 		},
 		{
 			name="5",
+			attach_offset={x=-4, y=3.5, z=-10},
+			view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=3.5, z=0},
+			group="passenger",
+		},
+		{
+			name="6",
 			attach_offset={x=-4, y=3.5, z=-28},
 			view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=3.5, z=0},
 			group="passenger",
 		},
 		-- Right side seats
 		{
-			name="6",
-			attach_offset={x=4, y=3.5, z=4},-- 4
-			view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=3.5, z=0},
-			group="passenger",
-		},
-		{
 			name="7",
-			attach_offset={x=4, y=3.5, z=10},
+			attach_offset={x=-4, y=3.5, z=28},
 			view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=3.5, z=0},
 			group="passenger",
 		},
 		{
 			name="8",
-			attach_offset={x=4, y=3.5, z=-4},
+			attach_offset={x=-4, y=3.5, z=10},
 			view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=3.5, z=0},
 			group="passenger",
 		},
 		{
 			name="9",
-			attach_offset={x=4, y=3.5, z=-10},
+			attach_offset={x=-4, y=3.5, z=4},-- 4
 			view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=3.5, z=0},
 			group="passenger",
 		},
 		{
 			name="10",
-			attach_offset={x=4, y=3.5, z=-28},
+			attach_offset={x=-4, y=3.5, z=-4},
+			view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=3.5, z=0},
+			group="passenger",
+		},
+		{
+			name="11",
+			attach_offset={x=-4, y=3.5, z=-10},
+			view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=3.5, z=0},
+			group="passenger",
+		},
+		{
+			name="12",
+			attach_offset={x=-4, y=3.5, z=-28},
 			view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=3.5, z=0},
 			group="passenger",
 		},
@@ -470,8 +482,8 @@ local subway_wagon_def = {
 		-1.0, -0.5, -1.0,
 		1.0, 2.5, 1.0
 	},
-	coupler_types_front = {tomlinson=true},
-	coupler_types_back = {tomlinson=true}
+	coupler_types_front = {Tomlinson=true},
+	coupler_types_back = {Tomlinson=true}
 }
 
 -- Enable support for advtrains_attachment_offset_patch
