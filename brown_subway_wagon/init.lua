@@ -316,6 +316,8 @@ local subway_locomotive_def = {
 		-1.0, -0.5, -1.0,
 		1.0, 2.5, 1.0
 	},
+	coupler_types_front = {tomlinson=true},
+	coupler_types_back = {tomlinson=true}
 }
 
 -- The definition for brown_subway_wagon
@@ -468,6 +470,8 @@ local subway_wagon_def = {
 		-1.0, -0.5, -1.0,
 		1.0, 2.5, 1.0
 	},
+	coupler_types_front = {tomlinson=true},
+	coupler_types_back = {tomlinson=true}
 }
 
 -- Enable support for advtrains_attachment_offset_patch
