@@ -13,50 +13,55 @@ local use_advtrains_livery_designer = minetest.get_modpath("advtrains_livery_des
 local mod_name = "subways_brown_subway_wagon"
 
 -- The templates that define the liveries
+local livery_template_definition = {
+	name = "Brown Subway",
+	designer = "Sylvester Kruin",
+	texture_license = "CC-BY-SA-3.0",
+	texture_creator = "Sylvester Kruin",
+	notes = "This template supports independent color overrides for the exterior accents.",
+	base_textures = {
+		"b_coupler.png",
+		"b_cube.png",
+		"b_doors.png",
+		"b_seat.png",
+		"b_undercarriage.png",
+		"b_wagon_exterior.png",
+		"b_wagon_interior.png",
+		"b_wheels.png",
+	},
+	overlays = {
+		[1] = {name = "Window Stripe", slot_idx = 6, texture = "b_wagon_exterior_overlay.png", alpha = 255},
+		[2] = {name = "Door Livery",   slot_idx = 3, texture = "b_doors_overlay.png",          alpha = 255},
+		[3] = {name = "Seat Color",    slot_idx = 4, texture = "b_seat_overlay.png",           alpha = 240},
+		[4] = {name = "Carpet Color",  slot_idx = 7, texture = "b_wagon_interior_overlay.png", alpha = 240},
+	},
+}
 local livery_templates = {
+	["advtrains:brown_subway_locomotive"] = {
+		livery_template_definition
+	},
 	["advtrains:brown_subway_wagon"] = {
-		{
-			name = "Brown Subway Wagon",
-			designer = "Sylvester Kruin",
-			texture_license = "CC-BY-SA-3.0",
-			texture_creator = "Sylvester Kruin",
-			notes = "This template supports independent color overrides for the exterior accents.",
-
-			base_textures = {
-				"b_coupler.png",
-				"b_cube.png",
-				"b_doors.png",
-				"b_seat.png",
-				"b_undercarriage.png",
-				"b_wagon_exterior.png",
-				"b_wagon_interior.png",
-				"b_wheels.png",
-			},
-			overlays = {
-				[1] = {name = "Window Stripe", slot_idx = 6, texture = "b_wagon_exterior_overlay.png", alpha = 255},
-				[2] = {name = "Door Livery",   slot_idx = 3, texture = "b_doors_overlay.png",          alpha = 255},
-				[3] = {name = "Seat Color",    slot_idx = 4, texture = "b_seat_overlay.png",           alpha = 240},
-				[4] = {name = "Carpet Color",  slot_idx = 7, texture = "b_wagon_interior_overlay.png", alpha = 240},
-			}
-		}
+		livery_template_definition
 	}
 }
 
 -- Predefined liveries
-local predefined_liveries = {
-	{
-		name = "Classic Brown",
-		notes = "A classic brown livery",
-		livery_design = {
-			livery_template_name = "Brown Subway Wagon",
-			overlays = {
-				[1] = {id = 1, color = "#7D5343"},
-				[2] = {id = 2, color = "#FFFFFF"},
-				[3] = {id = 3, color = "#970000"},
-				[4] = {id = 4, color = "#933415"}
-			}
+local predefined_livery_definition = {
+	name = "Classic Brown",
+	notes = "A classic brown livery",
+	livery_design = {
+		livery_template_name = "Brown Subway",
+		overlays = {
+			[1] = {id = 1, color = "#7D5343"},
+			[2] = {id = 2, color = "#FFFFFF"},
+			[3] = {id = 3, color = "#970000"},
+			[4] = {id = 4, color = "#933415"}
 		}
 	}
+}
+local predefined_liveries = {
+	["advtrains:brown_subway_locomotive"] = predefined_livery_definition,
+	["advtrains:brown_subway_wagon"] = predefined_livery_definition,
 }
 
 if use_advtrains_livery_designer then
@@ -80,6 +85,7 @@ if use_advtrains_livery_designer then
 
 	-- Register this mod's wagons and livery templates.
 	for wagon_type, wagon_livery_templates in pairs(livery_templates) do
+		print(wagon_type.." is being register WEEEEEEEHOOOOOOOOOO")
 		advtrains_livery_database.register_wagon(wagon_type, mod_name)
 		for _, livery_template in ipairs(wagon_livery_templates) do
 			advtrains_livery_database.add_livery_template(
@@ -110,9 +116,9 @@ if use_advtrains_livery_designer then
 	end
 
 	-- Register this mod's predefined wagon liveries.
-	for _, predefined_livery in ipairs(predefined_liveries) do
+	for wagon_type, predefined_livery in pairs(predefined_liveries) do
 		local livery_design = predefined_livery.livery_design
-		livery_design.wagon_type = "advtrains:brown_subway_wagon"
+		livery_design.wagon_type = wagon_type
 		advtrains_livery_database.add_predefined_livery(
 			predefined_livery.name,
 			livery_design,
@@ -349,7 +355,6 @@ local subway_wagon_def = {
 		local line_number = tonumber(train.line)
 		if line_number and line_number <= 9 and line_number > 0 then
 			line = "^b_line_"..train.line..".png"
-			print("Line update was successful")
 		end
 		if self.livery then
 			self.object:set_properties({
