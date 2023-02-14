@@ -1,18 +1,11 @@
-local S
-if minetest.get_modpath("intllib") then
-    S = intllib.Getter()
-else
-    S = function(s,a,...)a={a,...}return s:gsub("@(%d+)",function(n)return a[tonumber(n)]end)end
-end
-
+-- Optional supported mods
 local use_attachment_patch = advtrains_attachment_offset_patch and advtrains_attachment_offset_patch.setup_advtrains_wagon
-
--- Begin support implementation for advtrains_livery_designer
-
 local use_advtrains_livery_designer = minetest.get_modpath("advtrains_livery_designer") and advtrains_livery_designer
+
+-- The name of the mod used in registering for advtrains_livery_designer
 local mod_name = "subways_brown_subway_wagon"
 
--- The templates that define the liveries
+-- The template definitions for brown_subway_locomotive and brown_subway_wagon
 local livery_template_definition = {
 	name = "Brown Subway",
 	designer = "Sylvester Kruin",
@@ -36,6 +29,8 @@ local livery_template_definition = {
 		[4] = {name = "Carpet Color",  slot_idx = 7, texture = "b_wagon_interior_overlay.png", alpha = 240},
 	},
 }
+-- Since the livery template definitions for locomotive and wagon are identical, just
+-- use a variable
 local livery_templates = {
 	["advtrains:brown_subway_locomotive"] = {
 		livery_template_definition
@@ -59,16 +54,18 @@ local predefined_livery_definition = {
 		}
 	}
 }
+-- Same thing here; the predefined liveries for locomotive and wagon are identical,
+-- so we just use a variable
 local predefined_liveries = {
 	["advtrains:brown_subway_locomotive"] = predefined_livery_definition,
 	["advtrains:brown_subway_wagon"] = predefined_livery_definition,
 }
 
+-- If advtrains_livery_designer is installed, setup and register the locomotive and wagon
 if use_advtrains_livery_designer then
+
 	-- This function is called by the advtrains_livery_designer tool whenever the player
 	-- activates the "Apply" button.
-	-- This implementation is specific to brown_subway_wagon. A more complex
-	-- implementation may be needed if other wagons or livery templates are added.
 	local function apply_wagon_livery_textures(player, wagon, textures)
 		if wagon and textures and textures[1] then
 			local data = advtrains.wagons[wagon.id]
@@ -80,13 +77,17 @@ if use_advtrains_livery_designer then
 		end
 	end
 
-	-- Register this mod and its livery function with the advtrains_livery_designer tool.
+	-- Register this mod and its livery function with the advtrains_livery_designer tool
 	advtrains_livery_designer.register_mod(mod_name, apply_wagon_livery_textures)
 
 	-- Register this mod's wagons and livery templates.
 	for wagon_type, wagon_livery_templates in pairs(livery_templates) do
-		print(wagon_type.." is being register WEEEEEEEHOOOOOOOOOO")
+
+		-- Register this particular wagon with the mod name
 		advtrains_livery_database.register_wagon(wagon_type, mod_name)
+
+		-- Loop through the template definitions and add the templates and 
+		-- template overlays for this wagon
 		for _, livery_template in ipairs(wagon_livery_templates) do
 			advtrains_livery_database.add_livery_template(
 				wagon_type,
@@ -128,6 +129,7 @@ if use_advtrains_livery_designer then
 	end
 end
 
+-- This function updates the livery when the train is punched
 local function update_livery(wagon, puncher)
 	local itemstack = puncher:get_wielded_item()
 	local item_name = itemstack:get_name()
@@ -138,8 +140,8 @@ local function update_livery(wagon, puncher)
 	return false
 end
 
--- End of support code for advtrains_livery_designer
-
+-- This function is called by apply_wagon_livery_textures; it uses the data given
+-- to set the wagons' textures
 local function set_textures(self, data)
 	if data.livery then
 		self.livery = data.livery
@@ -161,64 +163,93 @@ local function set_textures(self, data)
 	end
 end
 
+-- Variables used in the wagon definitions
+
+-- The image textures for the wagons
+local textures = {
+	"b_coupler.png",
+	"b_cube.png",
+	"b_doors.png",
+	"b_seat.png",
+	"b_undercarriage.png",
+	"b_wagon_exterior.png",
+	"b_wagon_interior.png",
+	"b_wheels.png",
+}
+
+-- This function checks if the train is being punched by the livery tool and, if so, activates it
+local custom_may_destroy = function(wagon, puncher, time_from_last_punch, tool_capabilities, direction)
+	return not update_livery(wagon, puncher)
+end
+
+-- This function is used every time the wagon is updated, and controls the line numbers
+-- and maintains the textures that have been set
+local custom_on_step = function(self, dtime, data, train)
+	-- Set the line number for the train
+	local line = ""
+	local line_number = tonumber(train.line)
+	if line_number and line_number <= 9 and line_number > 0 then
+		line = "^b_line_"..train.line..".png"
+	end
+	if self.livery then
+		self.object:set_properties({
+			textures={
+				"b_coupler.png",
+				"b_cube.png",
+				self.door_livery_data,
+				self.seat_livery_data,
+				"b_undercarriage.png",
+				self.livery..line,
+				self.floor_livery_data,
+				"b_wheels.png",
+			}
+		})
+	else
+		self.object:set_properties({
+			textures={
+				"b_coupler.png",
+				"b_cube.png",
+				"b_doors.png",
+				"b_seat.png",
+				"b_undercarriage.png",
+				"b_wagon_exterior.png"..line,
+				"b_wagon_interior.png",
+				"b_wheels.png",
+			},
+		})
+	end
+end
+
+-- The start and end frames for the door animations
+local doors = {
+	open={
+		[-1]={frames={x=0, y=20}, time=1},
+		[1]={frames={x=40, y=60}, time=1}
+	},
+	close={
+		[-1]={frames={x=20, y=40}, time=1},
+		[1]={frames={x=60, y=80}, time=1}
+	}
+}
+
+-- The collision box
+local collisionbox = {
+	-1.0, -0.5, -1.0,
+	1.0, 2.5, 1.0
+}
+
+-- The coupler type used by the wagons
+local coupler_type = {Tomlinson=true}
+
 -- The definition for brown_subway_locomotive
 local subway_locomotive_def = {
     mesh="brown_subway_locomotive.b3d",
-    textures = {
-		"b_coupler.png",
-		"b_cube.png",
-		"b_doors.png",
-		"b_seat.png",
-		"b_undercarriage.png",
-		"b_wagon_exterior.png",
-		"b_wagon_interior.png",
-		"b_wheels.png",
-	},
-	base_texture = "b_wagon_exterior.png",
-	base_livery = "b_wagon_exterior_overlay.png",
-	seat_texture = "b_seat.png",
-	door_texture = "b_doors.png",
+    textures = textures,
 	set_textures = set_textures,
     drives_on={default=true},
     max_speed=15,
-	custom_may_destroy = function(wagon, puncher, time_from_last_punch, tool_capabilities, direction)
-		return not update_livery(wagon, puncher)
-	end,
-	custom_on_step = function(self, dtime, data, train)
-		-- Set the line number for the train
-		local line = ""
-		local line_number = tonumber(train.line)
-		if line_number and line_number <= 9 and line_number > 0 then
-			line = "^b_line_"..train.line..".png"
-		end
-		if self.livery then
-			self.object:set_properties({
-				textures={
-					"b_coupler.png",
-					"b_cube.png",
-					self.door_livery_data,
-					self.seat_livery_data,
-					"b_undercarriage.png",
-					self.livery..line,
-					self.floor_livery_data,
-					"b_wheels.png",
-				}
-			})
-		else
-			self.object:set_properties({
-				textures={
-					"b_coupler.png",
-					"b_cube.png",
-					"b_doors.png",
-					"b_seat.png",
-					"b_undercarriage.png",
-					"b_wagon_exterior.png"..line,
-					"b_wagon_interior.png",
-					"b_wheels.png",
-				},
-			})
-		end
-	end,
+	custom_may_destroy = custom_may_destroy,
+	custom_on_step = custom_on_step,
     seats={
 		{
 			name="Driver stand",
@@ -290,100 +321,39 @@ local subway_locomotive_def = {
 		},
     },
     seat_groups = {
-		driver_stand={
+		driver_stand = {
 			name = "Driver Stand",
 			access_to = {"passenger"},
 			require_doors_open=true,
 			driving_ctrl_access=true,
 		},
-        passenger={
+        passenger = {
 			name = "Passenger Area",
 			access_to = {"driver_stand"},
 			require_doors_open=true,
 		},
 	},
-    assign_to_seat_group={"passenger", "driver_stand"},
-    door_entry={-1, 1},
-	doors={
-		open={
-			[-1]={frames={x=0, y=20}, time=1},
-			[1]={frames={x=40, y=60}, time=1}
-		},
-		close={
-			[-1]={frames={x=20, y=40}, time=1},
-			[1]={frames={x=60, y=80}, time=1}
-		}
-	},
-    is_locomotive=true,
-	drops={"default:steelblock 4"},
-    visual_size={x=1, y=1},
-	wagon_span=3.45,
-	collisionbox = {
-		-1.0, -0.5, -1.0,
-		1.0, 2.5, 1.0
-	},
-	coupler_types_front = {Tomlinson=true},
-	coupler_types_back = {Tomlinson=true}
+    assign_to_seat_group = {"passenger", "driver_stand"},
+    door_entry = {-1, 1},
+	doors = doors,
+    is_locomotive = true,
+	drops = {"default:steelblock 4"},
+    visual_size = {x=1, y=1},
+	wagon_span = 3.45,
+	collisionbox = collisionbox,
+	coupler_types_front = coupler_type,
+	coupler_types_back = coupler_type
 }
 
 -- The definition for brown_subway_wagon
 local subway_wagon_def = {
     mesh="brown_subway_wagon.b3d",
-    textures = {
-		"b_coupler.png",
-		"b_cube.png",
-		"b_doors.png",
-		"b_seat.png",
-		"b_undercarriage.png",
-		"b_wagon_exterior.png",
-		"b_wagon_interior.png",
-		"b_wheels.png",
-	},
-	base_texture = "b_wagon_exterior.png",
-	base_livery = "b_wagon_exterior_overlay.png",
-	seat_texture = "b_seat.png",
-	door_texture = "b_doors.png",
+    textures = textures,
 	set_textures = set_textures,
     drives_on={default=true},
     max_speed=15,
-	custom_may_destroy = function(wagon, puncher, time_from_last_punch, tool_capabilities, direction)
-		return not update_livery(wagon, puncher)
-	end,
-	custom_on_step = function(self, dtime, data, train)
-		-- Set the line number for the train
-		local line = ""
-		local line_number = tonumber(train.line)
-		if line_number and line_number <= 9 and line_number > 0 then
-			line = "^b_line_"..train.line..".png"
-		end
-		if self.livery then
-			self.object:set_properties({
-				textures={
-					"b_coupler.png",
-					"b_cube.png",
-					self.door_livery_data,
-					self.seat_livery_data,
-					"b_undercarriage.png",
-					self.livery..line,
-					self.floor_livery_data,
-					"b_wheels.png",
-				}
-			})
-		else
-			self.object:set_properties({
-				textures={
-					"b_coupler.png",
-					"b_cube.png",
-					"b_doors.png",
-					"b_seat.png",
-					"b_undercarriage.png",
-					"b_wagon_exterior.png"..line,
-					"b_wagon_interior.png",
-					"b_wheels.png",
-				},
-			})
-		end
-	end,
+	custom_may_destroy = custom_may_destroy,
+	custom_on_step = custom_on_step,
     seats={
 		-- Left side seats
 		{
@@ -461,34 +431,22 @@ local subway_wagon_def = {
 		},
     },
     seat_groups = {
-        passenger={
+        passenger = {
 			name = "Passenger Area",
 			access_to = {},
 			require_doors_open=true,
 		},
 	},
-    assign_to_seat_group={"passenger"},
-    door_entry={-1, 1},
-	doors={
-		open={
-			[-1]={frames={x=0, y=20}, time=1},
-			[1]={frames={x=40, y=60}, time=1}
-		},
-		close={
-			[-1]={frames={x=20, y=40}, time=1},
-			[1]={frames={x=60, y=80}, time=1}
-		}
-	},
-    is_locomotive=false,
-	drops={"default:steelblock 4"},
-    visual_size={x=1, y=1},
-	wagon_span=3.45,
-	collisionbox = {
-		-1.0, -0.5, -1.0,
-		1.0, 2.5, 1.0
-	},
-	coupler_types_front = {Tomlinson=true},
-	coupler_types_back = {Tomlinson=true}
+    assign_to_seat_group = {"passenger"},
+    door_entry = {-1, 1},
+	doors=doors,
+    is_locomotive = false,
+	drops = {"default:steelblock 4"},
+    visual_size = {x=1, y=1},
+	wagon_span = 3.45,
+	collisionbox = collisionbox,
+	coupler_types_front = coupler_type,
+	coupler_types_back = coupler_type
 }
 
 -- Enable support for advtrains_attachment_offset_patch
