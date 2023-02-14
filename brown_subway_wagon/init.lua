@@ -155,6 +155,7 @@ local function set_textures(self, data)
 	end
 end
 
+-- The definition for brown_subway_locomotive
 local subway_locomotive_def = {
     mesh="brown_subway_locomotive.b3d",
     textures = {
@@ -317,82 +318,156 @@ local subway_locomotive_def = {
 	},
 }
 
--- The definition for the brown_subway_wagon, which is a modified version of the definition for brown_subway_locomotive
-local subway_wagon_def = subway_locomotive_def
-subway_wagon_def.mesh = "brown_subway_wagon.b3d"
-subway_wagon_def.seats = {
-	-- Left side seats
-	{
-		name="1",
-		attach_offset={x=-4, y=3.5, z=4},-- 4
-		view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=3.5, z=0},
-		group="passenger",
+-- The definition for brown_subway_wagon
+local subway_wagon_def = {
+    mesh="brown_subway_wagon.b3d",
+    textures = {
+		"b_coupler.png",
+		"b_cube.png",
+		"b_doors.png",
+		"b_seat.png",
+		"b_undercarriage.png",
+		"b_wagon_exterior.png",
+		"b_wagon_interior.png",
+		"b_wheels.png",
 	},
-	{
-		name="2",
-		attach_offset={x=-4, y=3.5, z=10},
-		view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=3.5, z=0},
-		group="passenger",
+	base_texture = "b_wagon_exterior.png",
+	base_livery = "b_wagon_exterior_overlay.png",
+	seat_texture = "b_seat.png",
+	door_texture = "b_doors.png",
+	set_textures = set_textures,
+    drives_on={default=true},
+    max_speed=15,
+	custom_may_destroy = function(wagon, puncher, time_from_last_punch, tool_capabilities, direction)
+		return not update_livery(wagon, puncher)
+	end,
+	custom_on_step = function(self, dtime, data, train)
+		-- Set the line number for the train
+		local line = ""
+		local line_number = tonumber(train.line)
+		if line_number and line_number <= 9 and line_number > 0 then
+			line = "^b_line_"..train.line..".png"
+		end
+		if self.livery then
+			self.object:set_properties({
+				textures={
+					"b_coupler.png",
+					"b_cube.png",
+					self.door_livery_data,
+					self.seat_livery_data,
+					"b_undercarriage.png",
+					self.livery..line,
+					self.floor_livery_data,
+					"b_wheels.png",
+				}
+			})
+		else
+			self.object:set_properties({
+				textures={
+					"b_coupler.png",
+					"b_cube.png",
+					"b_doors.png",
+					"b_seat.png",
+					"b_undercarriage.png",
+					"b_wagon_exterior.png",
+					"b_wagon_interior.png",
+					"b_wheels.png",
+				},
+			})
+		end
+	end,
+    seats={
+		-- Left side seats
+        {
+			name="1",
+			attach_offset={x=-4, y=3.5, z=4},-- 4
+			view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=3.5, z=0},
+			group="passenger",
+		},
+		{
+			name="2",
+			attach_offset={x=-4, y=3.5, z=10},
+			view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=3.5, z=0},
+			group="passenger",
+		},
+		{
+			name="3",
+			attach_offset={x=-4, y=3.5, z=-4},
+			view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=3.5, z=0},
+			group="passenger",
+		},
+		{
+			name="4",
+			attach_offset={x=-4, y=3.5, z=-10},
+			view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=3.5, z=0},
+			group="passenger",
+		},
+		{
+			name="5",
+			attach_offset={x=-4, y=3.5, z=-28},
+			view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=3.5, z=0},
+			group="passenger",
+		},
+		-- Right side seats
+		{
+			name="6",
+			attach_offset={x=4, y=3.5, z=4},-- 4
+			view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=3.5, z=0},
+			group="passenger",
+		},
+		{
+			name="7",
+			attach_offset={x=4, y=3.5, z=10},
+			view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=3.5, z=0},
+			group="passenger",
+		},
+		{
+			name="8",
+			attach_offset={x=4, y=3.5, z=-4},
+			view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=3.5, z=0},
+			group="passenger",
+		},
+		{
+			name="9",
+			attach_offset={x=4, y=3.5, z=-10},
+			view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=3.5, z=0},
+			group="passenger",
+		},
+		{
+			name="10",
+			attach_offset={x=4, y=3.5, z=-28},
+			view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=3.5, z=0},
+			group="passenger",
+		},
+    },
+    seat_groups = {
+        passenger={
+			name = "Passenger Area",
+			access_to = {},
+			require_doors_open=true,
+		},
 	},
-	{
-		name="3",
-		attach_offset={x=-4, y=3.5, z=-4},
-		view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=3.5, z=0},
-		group="passenger",
+    assign_to_seat_group={"passenger"},
+    door_entry={-1, 1},
+	doors={
+		open={
+			[-1]={frames={x=0, y=20}, time=1},
+			[1]={frames={x=40, y=60}, time=1}
+		},
+		close={
+			[-1]={frames={x=20, y=40}, time=1},
+			[1]={frames={x=60, y=80}, time=1}
+		}
 	},
-	{
-		name="4",
-		attach_offset={x=-4, y=3.5, z=-10},
-		view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=3.5, z=0},
-		group="passenger",
-	},
-	{
-		name="5",
-		attach_offset={x=-4, y=3.5, z=-28},
-		view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=3.5, z=0},
-		group="passenger",
-	},
-	-- Right side seats
-	{
-		name="6",
-		attach_offset={x=4, y=3.5, z=4},-- 4
-		view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=3.5, z=0},
-		group="passenger",
-	},
-	{
-		name="7",
-		attach_offset={x=4, y=3.5, z=10},
-		view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=3.5, z=0},
-		group="passenger",
-	},
-	{
-		name="8",
-		attach_offset={x=4, y=3.5, z=-4},
-		view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=3.5, z=0},
-		group="passenger",
-	},
-	{
-		name="9",
-		attach_offset={x=4, y=3.5, z=-10},
-		view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=3.5, z=0},
-		group="passenger",
-	},
-	{
-		name="10",
-		attach_offset={x=4, y=3.5, z=-28},
-		view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=3.5, z=0},
-		group="passenger",
+    is_locomotive=false,
+	drops={"default:steelblock 4"},
+    visual_size={x=1, y=1},
+	wagon_span=3.45,
+	collisionbox = {
+		-1.0, -0.5, -1.0,
+		1.0, 2.5, 1.0
 	},
 }
-subway_wagon_def.seat_groups = {
-	passenger={
-		name = "Passenger Area",
-		access_to = {},
-		require_doors_open=true,
-	},
-}
-subway_wagon_def.assign_to_seat_group = {"passenger"}
-subway_wagon_def.is_locomotive = false
 
 -- Enable support for advtrains_attachment_offset_patch
 if use_attachment_patch then
