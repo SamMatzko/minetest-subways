@@ -206,7 +206,7 @@ local subway_locomotive_def = {
 					"b_doors.png",
 					"b_seat.png",
 					"b_undercarriage.png",
-					"b_wagon_exterior.png",
+					"b_wagon_exterior.png"..line,
 					"b_wagon_interior.png",
 					"b_wheels.png",
 				},
@@ -347,6 +347,7 @@ local subway_wagon_def = {
 		local line_number = tonumber(train.line)
 		if line_number and line_number <= 9 and line_number > 0 then
 			line = "^b_line_"..train.line..".png"
+			print("Line update was successful")
 		end
 		if self.livery then
 			self.object:set_properties({
@@ -369,7 +370,7 @@ local subway_wagon_def = {
 					"b_doors.png",
 					"b_seat.png",
 					"b_undercarriage.png",
-					"b_wagon_exterior.png",
+					"b_wagon_exterior.png"..line,
 					"b_wagon_interior.png",
 					"b_wheels.png",
 				},
