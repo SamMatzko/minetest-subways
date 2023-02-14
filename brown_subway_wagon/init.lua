@@ -155,9 +155,9 @@ local function set_textures(self, data)
 	end
 end
 
-local subway_wagon_def = {
-    mesh="brown_subway_wagon.b3d",
-    textures={
+local subway_locomotive_def = {
+    mesh="brown_subway_locomotive.b3d",
+    textures = {
 		"b_coupler.png",
 		"b_cube.png",
 		"b_doors.png",
@@ -316,10 +316,93 @@ local subway_wagon_def = {
 		1.0, 2.5, 1.0
 	},
 }
+
+-- The definition for the brown_subway_wagon, which is a modified version of the definition for brown_subway_locomotive
+local subway_wagon_def = subway_locomotive_def
+subway_wagon_def.mesh = "brown_subway_wagon.b3d"
+subway_wagon_def.seats = {
+	-- Left side seats
+	{
+		name="1",
+		attach_offset={x=-4, y=3.5, z=4},-- 4
+		view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=3.5, z=0},
+		group="passenger",
+	},
+	{
+		name="2",
+		attach_offset={x=-4, y=3.5, z=10},
+		view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=3.5, z=0},
+		group="passenger",
+	},
+	{
+		name="3",
+		attach_offset={x=-4, y=3.5, z=-4},
+		view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=3.5, z=0},
+		group="passenger",
+	},
+	{
+		name="4",
+		attach_offset={x=-4, y=3.5, z=-10},
+		view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=3.5, z=0},
+		group="passenger",
+	},
+	{
+		name="5",
+		attach_offset={x=-4, y=3.5, z=-28},
+		view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=3.5, z=0},
+		group="passenger",
+	},
+	-- Right side seats
+	{
+		name="6",
+		attach_offset={x=4, y=3.5, z=4},-- 4
+		view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=3.5, z=0},
+		group="passenger",
+	},
+	{
+		name="7",
+		attach_offset={x=4, y=3.5, z=10},
+		view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=3.5, z=0},
+		group="passenger",
+	},
+	{
+		name="8",
+		attach_offset={x=4, y=3.5, z=-4},
+		view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=3.5, z=0},
+		group="passenger",
+	},
+	{
+		name="9",
+		attach_offset={x=4, y=3.5, z=-10},
+		view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=3.5, z=0},
+		group="passenger",
+	},
+	{
+		name="10",
+		attach_offset={x=4, y=3.5, z=-28},
+		view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=3.5, z=0},
+		group="passenger",
+	},
+}
+subway_wagon_def.seat_groups = {
+	passenger={
+		name = "Passenger Area",
+		access_to = {},
+		require_doors_open=true,
+	},
+}
+subway_wagon_def.assign_to_seat_group = {"passenger"}
+subway_wagon_def.is_locomotive = false
+
+-- Enable support for advtrains_attachment_offset_patch
 if use_attachment_patch then
-	advtrains_attachment_offset_patch.setup_advtrains_wagon(subway_wagon_def);
+	advtrains_attachment_offset_patch.setup_advtrains_wagon(subway_locomotive_def)
+	advtrains_attachment_offset_patch.setup_advtrains_wagon(subway_wagon_def)
 end
-advtrains.register_wagon("brown_subway_wagon", subway_wagon_def, attrans("Brown Subway Car"), "b_inv.png")
+
+-- Register the wagon and locomotive
+advtrains.register_wagon("brown_subway_locomotive", subway_locomotive_def, "Brown Subway Locomotive", "b_inv_locomotive.png")
+advtrains.register_wagon("brown_subway_wagon", subway_wagon_def, "Brown Subway Car", "b_inv_wagon.png")
 
 -- Craft recipes
 minetest.register_craft({
@@ -328,5 +411,13 @@ minetest.register_craft({
 		{"default:steelblock", "default:steelblock", "default:steelblock"},
 		{"xpanes:pane_flat", "dye:brown", "xpanes:pane_flat"},
 		{"advtrains:wheel", "", "advtrains:wheel"}
+	}
+})
+minetest.register_craft({
+	output="advtrains:brown_subway_locomotive",
+	recipe={
+		{"", "", ""},
+		{"default:steelblock", "advtrains:brown_subway_wagon", "default:steelblock"},
+		{"", "", ""},
 	}
 })
