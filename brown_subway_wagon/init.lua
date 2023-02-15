@@ -241,6 +241,9 @@ local collisionbox = {
 -- The coupler type used by the wagons
 local coupler_type = {Tomlinson=true}
 
+-- The positions for the wheels (doesn't work with the ContentDB version of Advtrains)
+local wheel_positions = {2.1, -2.1}
+
 -- The definition for brown_subway_locomotive
 local subway_locomotive_def = {
     mesh="brown_subway_locomotive.b3d",
@@ -340,6 +343,7 @@ local subway_locomotive_def = {
 	drops = {"default:steelblock 4"},
     visual_size = {x=1, y=1},
 	wagon_span = 3.45,
+	wheel_positions = wheel_positions,
 	collisionbox = collisionbox,
 	coupler_types_front = coupler_type,
 	coupler_types_back = coupler_type
@@ -444,6 +448,7 @@ local subway_wagon_def = {
 	drops = {"default:steelblock 4"},
     visual_size = {x=1, y=1},
 	wagon_span = 3.45,
+	wheel_positions = wheel_positions,
 	collisionbox = collisionbox,
 	coupler_types_front = coupler_type,
 	coupler_types_back = coupler_type
