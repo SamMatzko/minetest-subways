@@ -2,6 +2,17 @@
 local use_attachment_patch = advtrains_attachment_offset_patch and advtrains_attachment_offset_patch.setup_advtrains_wagon
 local use_advtrains_livery_designer = minetest.get_modpath("advtrains_livery_designer") and advtrains_livery_designer
 
+-- Add optional support for the bike painter, in case users don't want to use the livery designer
+local function set_livery(self, puncher, itemstack, data)
+	local meta = itemstack:get_meta()
+	local color = meta:get_string("paint_color")
+	local alpha = tonumber(meta:get_string("alpha"))
+	if color and color:find("^#%x%x%x%x%x%x$") then
+		data.livery = self.base_texture.."^("..self.base_livery.."^[colorize:"..color..":255)"
+		self:set_textures(data)
+	end
+end
+
 -- The name of the mod used in registering for advtrains_livery_designer
 local mod_name = "subways_brown_subway_wagon"
 
@@ -149,16 +160,16 @@ local function set_textures(self, data)
 		self.seat_livery_data = data.seats
 		self.floor_livery_data = data.floor
 		self.object:set_properties({
-				textures={
-					"b_coupler.png",
-					"b_cube.png",
-					data.door,
-					data.seats,
-					"b_undercarriage.png",
-					data.livery,
-					data.floor,
-					"b_wheels.png",
-				}
+			textures={
+				"b_coupler.png",
+				"b_cube.png",
+				data.door,
+				data.seats,
+				"b_undercarriage.png",
+				data.livery,
+				data.floor,
+				"b_wheels.png",
+			}
 		})
 	end
 end
@@ -176,6 +187,10 @@ local textures = {
 	"b_wagon_interior.png",
 	"b_wheels.png",
 }
+
+-- Texture variables used for bike painter support
+local base_texture = "b_wagon_exterior.png"
+local base_livery = "b_wagon_exterior_overlay.png"
 
 -- This function checks if the train is being punched by the livery tool and, if so, activates it
 local custom_may_destroy = function(wagon, puncher, time_from_last_punch, tool_capabilities, direction)
@@ -247,8 +262,11 @@ local wheel_positions = {2.1, -2.1}
 -- The definition for brown_subway_locomotive
 local subway_locomotive_def = {
     mesh="brown_subway_locomotive.b3d",
+	base_texture = base_texture,
+	base_livery = base_livery,
     textures = textures,
 	set_textures = set_textures,
+	set_livery = set_livery, -- This is for bike painter support
     drives_on={default=true},
     max_speed=15,
 	custom_may_destroy = custom_may_destroy,
@@ -352,8 +370,11 @@ local subway_locomotive_def = {
 -- The definition for brown_subway_wagon
 local subway_wagon_def = {
     mesh="brown_subway_wagon.b3d",
+	base_livery = base_livery,
+	base_texture = base_texture,
     textures = textures,
 	set_textures = set_textures,
+	set_livery = set_livery, -- This is for bike painter support
     drives_on={default=true},
     max_speed=15,
 	custom_may_destroy = custom_may_destroy,
