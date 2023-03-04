@@ -11,7 +11,7 @@ If you have any ideas for more types of subways I could add, or if you have a pa
 
 ## Todo
 - [X] Add line number support to subway
-- [X] Make more trains
+- [ ] Update Red Subway Wagon and Green Subway Wagon textures and models
 - [ ] Add sound effects
 
 ## Contributors
