@@ -1,6 +1,6 @@
 # [Minetest](https://minetest.net/) Subways - [ContentDB](https://content.minetest.net/packages/sylvester_kruin/subways/)
 
-### Note: a new updated version will be released on ContentDB sometime this summer. Here is what's being done:
+### Note: a new updated version will be released on ContentDB sometime in the next few months. Here is what's being done:
 
 - [X] Add a Brown Subway Wagon
 - [ ] Redo the Green Subway Wagon (with support for [Advtrains Livery Tools](https://github.com/Marnack/advtrains_livery_tools))
