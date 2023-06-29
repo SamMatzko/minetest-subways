@@ -6,7 +6,7 @@ local mod_name = "subways_lrv_type_9"
 local livery_templates = {
     ["advtrains:lrv_type_9"] = {
         {
-            name = "LRV Type 9 Livery Template",
+            name = "LRV Type 9",
             designer = "Marnack",
             texture_license = "CC-BY-SA-3.0",
             texture_creator = "Samuel Matzko",
@@ -43,7 +43,7 @@ local predefined_liveries = {
         name = "Sea Green Special",
         notes = "",
         livery_design = {
-            livery_template_name = "Basic Window Band",
+            livery_template_name = "LRV Type 9",
             overlays = {
                 [1] = {id = 1, color = "#2E8B57"}, -- "Exterior Accents",
                 [2] = {id = 2, color = "#FFFFFF"}, -- "Side Doors",
@@ -55,7 +55,7 @@ local predefined_liveries = {
         name = "Green Gazebo",
         notes = "",
         livery_design = {
-            livery_template_name = "Basic Window Band",
+            livery_template_name = "LRV Type 9",
             overlays = {
                 [1] = {id = 1, color = "#006400"}, -- "Exterior Accents",
                 [2] = {id = 2, color = "#008000"}, -- "Side Doors",
@@ -67,7 +67,7 @@ local predefined_liveries = {
         name = "Tan Caravan",
         notes = "",
         livery_design = {
-            livery_template_name = "Basic Window Band",
+            livery_template_name = "LRV Type 9",
             overlays = {
                 [1] = {id = 1, color = "#D2B48C"}, -- "Exterior Accents",
                 [2] = {id = 2, color = "#F5DEB3"}, -- "Side Doors",

@@ -6,7 +6,7 @@ local mod_name = "subways_01700_series"
 local livery_templates = {
 	["advtrains:01700_series"] = {
 		{
-			name = "Basic Two-Tone",
+			name = "01700-series",
 			designer = "Marnack",
 			texture_license = "CC-BY-SA-3.0",
 			texture_creator = "Samuel Matzko",
@@ -43,7 +43,7 @@ local predefined_liveries = {
 		name = "Crimson Special",
 		notes = "",
 		livery_design = {
-			livery_template_name = "Basic Two-Tone",
+			livery_template_name = "01700-series",
 			overlays = {
 				[1] = {id = 1,	color = "#DC143C"},	-- "Exterior Walls",
 				[2] = {id = 2,	color = "#FFFFFF"},	-- "Side Doors",
@@ -56,7 +56,7 @@ local predefined_liveries = {
 		name = "Maroon Lagoon",
 		notes = "",
 		livery_design = {
-			livery_template_name = "Basic Two-Tone",
+			livery_template_name = "01700-series",
 			overlays = {
 				[1] = {id = 1,	color = "#800000"},	-- "Exterior Walls",
 				[2] = {id = 2,	color = "#C00000"},	-- "Side Doors",
@@ -69,7 +69,7 @@ local predefined_liveries = {
 		name = "Regal Rambler",
 		notes = "",
 		livery_design = {
-			livery_template_name = "Basic Two-Tone",
+			livery_template_name = "01700-series",
 			overlays = {
 				[1] = {id = 1,	color = "#998822"},	-- "Exterior Walls",
 				[2] = {id = 2,	color = "#998822"},	-- "Side Doors",
