@@ -1,17 +1,10 @@
-local S
-if minetest.get_modpath("intllib") then
-    S = intllib.Getter()
-else
-    S = function(s,a,...)a={a,...}return s:gsub("@(%d+)",function(n)return a[tonumber(n)]end)end
-end
-
 -- Begin support code for AdvTrains Livery Designer
 
 local use_advtrains_livery_designer = minetest.get_modpath( "advtrains_livery_designer" ) and advtrains_livery_designer
-local mod_name = "subways_red_subway_wagon"
+local mod_name = "subways_01700_series"
 
 local livery_templates = {
-	["advtrains:red_subway_wagon"] = {
+	["advtrains:01700_series"] = {
 		{
 			name = "Basic Two-Tone",
 			designer = "Marnack",
@@ -19,27 +12,27 @@ local livery_templates = {
 			texture_creator = "Samuel Matzko",
 			notes = "This template supports independent color overrides of the lower half of the the exterior walls, side doors, end doors and seats.",
 			base_textures = {
-				"r_wagon_exterior.png",
-				"r_wagon_interior.png",
-				"r_chassis_accessories.png",
-				"r_coupler.png",
-				"r_wheel_truck.png",
-				"r_wheel_truck.png",
-				"r_coupler.png",
-				"r_doors.png",
-				"r_end_doors.png",
-				"r_glasses.png",
-				"r_seats.png",
-				"r_wheels.png",
-				"r_wheels.png",
-				"r_wheels.png",
-				"r_wheels.png",
+				"01700_wagon_exterior.png",
+				"01700_wagon_interior.png",
+				"01700_chassis_accessories.png",
+				"01700_coupler.png",
+				"01700_wheel_truck.png",
+				"01700_wheel_truck.png",
+				"01700_coupler.png",
+				"01700_door.png",
+				"01700_end_door.png",
+				"01700_glasses.png",
+				"01700_seats.png",
+				"01700_wheels.png",
+				"01700_wheels.png",
+				"01700_wheels.png",
+				"01700_wheels.png",
 			},
 			overlays = {
-				[1] = {name = "Exterior Walls",		slot_idx = 1,	texture = "r_livery.png"},
-				[2] = {name = "Side Doors",			slot_idx = 8,	texture = "r_door_livery.png"},
-				[3] = {name = "End Doors",			slot_idx = 9,	texture = "r_end_door_livery.png"},
-				[4] = {name = "Seats",				slot_idx = 11,	texture = "r_seat_livery.png",		alpha = 248},
+				[1] = {name = "Exterior Walls",		slot_idx = 1,	texture = "01700_livery.png"},
+				[2] = {name = "Side Doors",			slot_idx = 8,	texture = "01700_door_livery.png"},
+				[3] = {name = "End Doors",			slot_idx = 9,	texture = "01700_end_door_livery.png"},
+				[4] = {name = "Seats",				slot_idx = 11,	texture = "01700_seat_livery.png",		alpha = 248},
 			},
 		},
 	},
@@ -90,7 +83,7 @@ local predefined_liveries = {
 if use_advtrains_livery_designer then
 	-- This function is called by the advtrains_livery_designer tool whenever the player
 	-- activates the "Apply" button.
-	-- This implementation is specific to red_subway_wagon. A more complex
+	-- This implementation is specific to 01700_series. A more complex
 	-- implementation may be needed if other wagons or livery templates are added.
 	local function apply_wagon_livery_textures(player, wagon, textures)
 		if wagon and textures and textures[1] then
@@ -140,7 +133,7 @@ if use_advtrains_livery_designer then
 	-- Register this mod's predefined wagon liveries.
 	for _, predefined_livery in ipairs(predefined_liveries) do
 		local livery_design = predefined_livery.livery_design
-		livery_design.wagon_type = "advtrains:red_subway_wagon"
+		livery_design.wagon_type = "advtrains:01700_series"
 		advtrains_livery_database.add_predefined_livery(
 			predefined_livery.name,
 			livery_design,
@@ -185,20 +178,20 @@ local function set_textures(self, data)
 		self.object:set_properties({
 				textures={
 					data.livery,
-					"r_wagon_interior.png",
-					"r_chassis_accessories.png",
-					"r_coupler.png",
-					"r_wheel_truck.png",
-					"r_wheel_truck.png",
-					"r_coupler.png",
+					"01700_wagon_interior.png",
+					"01700_chassis_accessories.png",
+					"01700_coupler.png",
+					"01700_wheel_truck.png",
+					"01700_wheel_truck.png",
+					"01700_coupler.png",
 					data.door,
 					data.end_door,
-					"r_glasses.png",
+					"01700_glasses.png",
 					data.seats,
-					"r_wheels.png",
-					"r_wheels.png",
-					"r_wheels.png",
-					"r_wheels.png",
+					"01700_wheels.png",
+					"01700_wheels.png",
+					"01700_wheels.png",
+					"01700_wheels.png",
 				}
 		})
 	end
@@ -207,31 +200,31 @@ end
 local use_attachment_patch = advtrains_attachment_offset_patch and advtrains_attachment_offset_patch.setup_advtrains_wagon
 
 local subway_wagon_def = {
-    mesh="red_subway_wagon.b3d",
+    mesh="01700_series.b3d",
     textures={
-		"r_wagon_exterior.png",
-		"r_wagon_interior.png",
-		"r_chassis_accessories.png",
-		"r_coupler.png",
-		"r_wheel_truck.png",
-		"r_wheel_truck.png",
-		"r_coupler.png",
-		"r_doors.png",
-		"r_end_doors.png",
-		"r_glasses.png",
-		"r_seats.png",
-		"r_wheels.png",
-		"r_wheels.png",
-		"r_wheels.png",
-		"r_wheels.png",
+		"01700_wagon_exterior.png",
+		"01700_wagon_interior.png",
+		"01700_chassis_accessories.png",
+		"01700_coupler.png",
+		"01700_wheel_truck.png",
+		"01700_wheel_truck.png",
+		"01700_coupler.png",
+		"01700_door.png",
+		"01700_end_door.png",
+		"01700_glasses.png",
+		"01700_seats.png",
+		"01700_wheels.png",
+		"01700_wheels.png",
+		"01700_wheels.png",
+		"01700_wheels.png",
 	},
-    base_texture = "r_wagon_exterior.png",
-    base_livery = "r_livery.png",
-    door_texture = "r_doors.png",
-    door_livery = "r_door_livery.png",
-	end_door_texture = "r_end_doors.png",
-	end_door_livery = "r_end_door_livery.png",
-	seat_texture = "r_seats.png",
+    base_texture = "01700_wagon_exterior.png",
+    base_livery = "01700_livery.png",
+    door_texture = "01700_door.png",
+    door_livery = "01700_door_livery.png",
+	end_door_texture = "01700_end_door.png",
+	end_door_livery = "01700_end_door_livery.png",
+	seat_texture = "01700_seats.png",
     set_textures = set_textures,
     set_livery = set_livery,
 	custom_may_destroy = function(wagon, puncher, time_from_last_punch, tool_capabilities, direction)
@@ -346,46 +339,46 @@ local subway_wagon_def = {
 		local line = ""
 		local line_number = tonumber(train.line)
 		if line_number and line_number <= 9 and line_number > 0 then
-			line = "^r_line_"..train.line..".png"
+			line = "^01700_line_"..train.line..".png"
 		end
 		if self.livery then
 			self.object:set_properties({
 				textures={
 					self.livery..line,
-					"r_wagon_interior.png",
-					"r_chassis_accessories.png",
-					"r_coupler.png",
-					"r_wheel_truck.png",
-					"r_wheel_truck.png",
-					"r_coupler.png",
-					"r_doors.png^"..self.door_livery_data,
-					"r_end_doors.png^"..self.end_door_livery_data,
-					"r_glasses.png",
-					"r_seats.png^"..(self.seat_livery_data or ""),
-					"r_wheels.png",
-					"r_wheels.png",
-					"r_wheels.png",
-					"r_wheels.png",
+					"01700_wagon_interior.png",
+					"01700_chassis_accessories.png",
+					"01700_coupler.png",
+					"01700_wheel_truck.png",
+					"01700_wheel_truck.png",
+					"01700_coupler.png",
+					"01700_door.png^"..self.door_livery_data,
+					"01700_end_door.png^"..self.end_door_livery_data,
+					"01700_glasses.png",
+					"01700_seats.png^"..(self.seat_livery_data or ""),
+					"01700_wheels.png",
+					"01700_wheels.png",
+					"01700_wheels.png",
+					"01700_wheels.png",
 				}
 			})
 		else
 			self.object:set_properties({
 				textures={
-					"r_wagon_exterior.png"..line,
-					"r_wagon_interior.png",
-					"r_chassis_accessories.png",
-					"r_coupler.png",
-					"r_wheel_truck.png",
-					"r_wheel_truck.png",
-					"r_coupler.png",
-					"r_doors.png",
-					"r_end_doors.png",
-					"r_glasses.png",
-					"r_seats.png",
-					"r_wheels.png",
-					"r_wheels.png",
-					"r_wheels.png",
-					"r_wheels.png",
+					"01700_wagon_exterior.png"..line,
+					"01700_wagon_interior.png",
+					"01700_chassis_accessories.png",
+					"01700_coupler.png",
+					"01700_wheel_truck.png",
+					"01700_wheel_truck.png",
+					"01700_coupler.png",
+					"01700_door.png",
+					"01700_end_door.png",
+					"01700_glasses.png",
+					"01700_seats.png",
+					"01700_wheels.png",
+					"01700_wheels.png",
+					"01700_wheels.png",
+					"01700_wheels.png",
 				}
 			})
 		end
@@ -394,11 +387,11 @@ local subway_wagon_def = {
 if use_attachment_patch then
 	advtrains_attachment_offset_patch.setup_advtrains_wagon(subway_wagon_def);
 end
-advtrains.register_wagon("red_subway_wagon", subway_wagon_def, attrans("Red Subway Car"), "r_inv.png")
+advtrains.register_wagon("01700_series", subway_wagon_def, "017000-series (Subways)", "01700_inv.png")
 
 -- Craft recipes
 minetest.register_craft({
-	output="advtrains:red_subway_wagon",
+	output="advtrains:01700_series",
 	recipe={
 		{"default:steelblock", "default:steelblock", "default:steelblock"},
 		{"xpanes:pane_flat", "dye:red", "xpanes:pane_flat"},
