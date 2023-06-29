@@ -324,7 +324,11 @@ local subway_wagon_def = {
 if use_attachment_patch then
 	advtrains_attachment_offset_patch.setup_advtrains_wagon(subway_wagon_def);
 end
+<<<<<<< HEAD
 advtrains.register_wagon("lrv_type_9", subway_wagon_def, "LRV Type 9", "type_9_inv.png")
+=======
+advtrains.register_wagon("lrv_type_9", subway_wagon_def, attrans("Green Subway Car"), "type_9_inv.png")
+>>>>>>> 0f5afd83b19ea891ad870b7a9694b15acc0a8426
 
 -- Craft recipes
 minetest.register_craft({
