@@ -1,17 +1,10 @@
-local S
-if minetest.get_modpath("intllib") then
-    S = intllib.Getter()
-else
-    S = function(s,a,...)a={a,...}return s:gsub("@(%d+)",function(n)return a[tonumber(n)]end)end
-end
-
 -- Begin support code for AdvTrains Livery Designer
 
 local use_advtrains_livery_designer = minetest.get_modpath( "advtrains_livery_designer" ) and advtrains_livery_designer
-local mod_name = "subways_green_subway_wagon"
+local mod_name = "subways_lrv_type_9"
 
 local livery_templates = {
-	["advtrains:green_subway_wagon"] = {
+	["advtrains:lrv_type_9"] = {
 		{
 			name = "Basic Window Band",
 			designer = "Marnack",
@@ -19,15 +12,15 @@ local livery_templates = {
 			texture_creator = "Samuel Matzko",
 			notes = "This template supports independent color overrides of the exterior accents, side doors and seats.",
 			base_textures = {
-				"g_wagon_exterior.png",
-				"g_wagon_interior.png",
-				"g_door.png",
-				"g_seat.png"
+				"type_9_wagon_exterior.png",
+				"type_9_wagon_interior.png",
+				"type_9_door.png",
+				"type_9_seat.png"
 			},
 			overlays = {
-				[1] = {name = "Exterior Accents",	slot_idx = 1,	texture = "g_livery.png"},
-				[2] = {name = "Side Doors",			slot_idx = 3,	texture = "g_door_livery.png"},
-				[3] = {name = "Seats",				slot_idx = 4,	texture = "g_seat_livery.png",		alpha = 248},
+				[1] = {name = "Exterior Accents",	slot_idx = 1,	texture = "type_9_livery.png"},
+				[2] = {name = "Side Doors",			slot_idx = 3,	texture = "type_9_door_livery.png"},
+				[3] = {name = "Seats",				slot_idx = 4,	texture = "type_9_seat_livery.png",		alpha = 248},
 			},
 		},
 	},
@@ -75,7 +68,7 @@ local predefined_liveries = {
 if use_advtrains_livery_designer then
 	-- This function is called by the advtrains_livery_designer tool whenever the player
 	-- activates the "Apply" button.
-	-- This implementation is specific to green_subway_wagon. A more complex
+	-- This implementation is specific to lrv_type_9. A more complex
 	-- implementation may be needed if other wagons or livery templates are added.
 	local function apply_wagon_livery_textures(player, wagon, textures)
 		if wagon and textures and textures[1] then
@@ -124,7 +117,7 @@ if use_advtrains_livery_designer then
 	-- Register this mod's predefined wagon liveries.
 	for _, predefined_livery in ipairs(predefined_liveries) do
 		local livery_design = predefined_livery.livery_design
-		livery_design.wagon_type = "advtrains:green_subway_wagon"
+		livery_design.wagon_type = "advtrains:lrv_type_9"
 		advtrains_livery_database.add_predefined_livery(
 			predefined_livery.name,
 			livery_design,
@@ -164,7 +157,7 @@ local function set_textures(self, data)
 		self.door_livery_data = data.door
 		self.seat_livery_data = data.seats
 		self.object:set_properties({
-				textures={data.livery, "g_wagon_interior.png", data.door, data.seats}
+				textures={data.livery, "type_9_wagon_interior.png", data.door, data.seats}
 		})
 	end
 end
@@ -172,20 +165,20 @@ end
 local use_attachment_patch = advtrains_attachment_offset_patch and advtrains_attachment_offset_patch.setup_advtrains_wagon
 
 local subway_wagon_def = {
-    mesh="green_subway_wagon.b3d",
+    mesh="type_9.b3d",
     textures={
-		"g_wagon_exterior.png",
-		"g_wagon_interior.png",
-		"g_door.png",
-		"g_seat.png",
+		"type_9_wagon_exterior.png",
+		"type_9_wagon_interior.png",
+		"type_9_door.png",
+		"type_9_seat.png",
 	},
-    base_texture = "g_wagon_exterior.png",
-    base_livery = "g_livery.png",
-	seat_texture = "g_seat.png",
-	seat_livery = "g_seat_livery.png",
-    door_texture = "g_door.png",
-    door_livery = "g_door_livery.png",
-	seat_texture = "g_seat.png",
+    base_texture = "type_9_wagon_exterior.png",
+    base_livery = "type_9_livery.png",
+	seat_texture = "type_9_seat.png",
+	seat_livery = "type_9_seat_livery.png",
+    door_texture = "type_9_door.png",
+    door_livery = "type_9_door_livery.png",
+	seat_texture = "type_9_seat.png",
     set_textures = set_textures,
     set_livery = set_livery,
 	custom_may_destroy = function(wagon, puncher, time_from_last_punch, tool_capabilities, direction)
@@ -305,24 +298,24 @@ local subway_wagon_def = {
 		local line = ""
 		local line_number = tonumber(train.line)
 		if line_number and line_number <= 9 and line_number > 0 then
-			line = "^g_line_"..train.line..".png"
+			line = "^type_9_line_"..train.line..".png"
 		end
 		if self.livery then
 			self.object:set_properties({
 				textures={
 					self.livery..line,
-					"g_wagon_interior.png",
-					"g_door.png^"..self.door_livery_data,
-					"g_seat.png^"..(self.seat_livery_data or "")
+					"type_9_wagon_interior.png",
+					"type_9_door.png^"..self.door_livery_data,
+					"type_9_seat.png^"..(self.seat_livery_data or "")
 				}
 			})
 		else
 			self.object:set_properties({
 				textures={
-					"g_wagon_exterior.png"..line,
-					"g_wagon_interior.png",
-					"g_door.png",
-					"g_seat.png"
+					"type_9_wagon_exterior.png"..line,
+					"type_9_wagon_interior.png",
+					"type_9_door.png",
+					"type_9_seat.png"
 				}
 			})
 		end
@@ -331,11 +324,11 @@ local subway_wagon_def = {
 if use_attachment_patch then
 	advtrains_attachment_offset_patch.setup_advtrains_wagon(subway_wagon_def);
 end
-advtrains.register_wagon("green_subway_wagon", subway_wagon_def, attrans("Green Subway Car"), "g_inv.png")
+advtrains.register_wagon("lrv_type_9", subway_wagon_def, "LRV Type 9", "type_9_inv.png")
 
 -- Craft recipes
 minetest.register_craft({
-	output="advtrains:green_subway_wagon",
+	output="advtrains:lrv_type_9",
 	recipe={
 		{"default:steelblock", "default:steelblock", "default:steelblock"},
 		{"xpanes:pane_flat", "dye:dark_green", "xpanes:pane_flat"},
