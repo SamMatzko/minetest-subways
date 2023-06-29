@@ -9,7 +9,7 @@ local livery_templates = {
             name = "LRV Type 9",
             designer = "Marnack",
             texture_license = "CC-BY-SA-3.0",
-            texture_creator = "Samuel Matzko",
+            texture_creator = "Sam Matzko",
             notes = "This template supports independent color overrides of the exterior accents, side doors and seats.",
             base_textures = {
                 "type_9_coupler.png",
@@ -36,6 +36,27 @@ local livery_templates = {
             },
         },
     },
+    ["advtrains:lrv_type_9_middle"] = {
+        {
+            name = "LRV Type 9: Articulating Section",
+            designer = "Sam Matzko",
+            texture_license = "CC-BY-SA-3.0",
+            texture_creator = "Sam Matzko",
+            notes = "This template supports independent color overrides of the exterior accents and seats.",
+            base_textures = {
+                "type_9_overhead.png",
+                "type_9_middle_exterior.png",
+                "type_9_middle_interior.png",
+                "type_9_seats.png",
+                "type_9_undercarriage.png",
+                "type_9_wheels.png",
+            },
+            overlays = {
+                [1] = {name = "Exterior Accents", slot_idx = 2, texture = "type_9_middle_livery.png"},
+                [2] = {name = "Seats",            slot_idx = 4, texture = "type_9_seats_livery.png", alpha = 248},
+            },
+        },
+    },
 }
 
 local predefined_liveries = {
@@ -44,6 +65,7 @@ local predefined_liveries = {
         notes = "",
         livery_design = {
             livery_template_name = "LRV Type 9",
+            wagon_type = "advtrains:lrv_type_9",
             overlays = {
                 [1] = {id = 1, color = "#2E8B57"}, -- "Exterior Accents",
                 [2] = {id = 2, color = "#FFFFFF"}, -- "Side Doors",
@@ -56,6 +78,7 @@ local predefined_liveries = {
         notes = "",
         livery_design = {
             livery_template_name = "LRV Type 9",
+            wagon_type = "advtrains:lrv_type_9",
             overlays = {
                 [1] = {id = 1, color = "#006400"}, -- "Exterior Accents",
                 [2] = {id = 2, color = "#008000"}, -- "Side Doors",
@@ -68,10 +91,47 @@ local predefined_liveries = {
         notes = "",
         livery_design = {
             livery_template_name = "LRV Type 9",
+            wagon_type = "advtrains:lrv_type_9",
             overlays = {
                 [1] = {id = 1, color = "#D2B48C"}, -- "Exterior Accents",
                 [2] = {id = 2, color = "#F5DEB3"}, -- "Side Doors",
                 [3] = {id = 3, color = "#B2793E"}, -- "Seats",
+            },
+        },
+    },
+    {
+        name = "Sea Green Special",
+        notes = "",
+        livery_design = {
+            livery_template_name = "LRV Type 9: Articulating Section",
+            wagon_type = "advtrains:lrv_type_9_middle",
+            overlays = {
+                [1] = {id = 1, color = "#2E8B57"}, -- "Exterior Accents",
+                [2] = {id = 2, color = "#2E8B57"}, -- "Seats",
+            },
+        },
+    },
+    {
+        name = "Green Gazebo",
+        notes = "",
+        livery_design = {
+            livery_template_name = "LRV Type 9: Articulating Section",
+            wagon_type = "advtrains:lrv_type_9_middle",
+            overlays = {
+                [1] = {id = 1, color = "#006400"}, -- "Exterior Accents",
+                [2] = {id = 2, color = "#006400"}, -- "Seats",
+            },
+        },
+    },
+    {
+        name = "Tan Caravan",
+        notes = "",
+        livery_design = {
+            livery_template_name = "LRV Type 9: Articulating Section",
+            wagon_type = "advtrains:lrv_type_9_middle",
+            overlays = {
+                [1] = {id = 1, color = "#D2B48C"}, -- "Exterior Accents",
+                [2] = {id = 2, color = "#B2793E"}, -- "Seats",
             },
         },
     },
@@ -129,7 +189,6 @@ if use_advtrains_livery_designer then
     -- Register this mod's predefined wagon liveries.
     for _, predefined_livery in ipairs(predefined_liveries) do
         local livery_design = predefined_livery.livery_design
-        livery_design.wagon_type = "advtrains:lrv_type_9"
         advtrains_livery_database.add_predefined_livery(
             predefined_livery.name,
             livery_design,
@@ -377,16 +436,124 @@ local subway_wagon_def = {
         end
     end
 }
+
+local subway_wagon_middle_def = {
+    mesh="type_9_middle.b3d",
+    textures={
+        "type_9_middle_overhead.png",
+        "type_9_middle_exterior.png",
+        "type_9_middle_interior.png",
+        "type_9_seats.png",
+        "type_9_undercarriage.png",
+        "type_9_wheels.png",
+    },
+    base_texture = "type_9_middle_exterior.png",
+    base_livery = "type_9_middle_livery.png",
+    seat_texture = "type_9_seat.png",
+    seat_livery = "type_9_seat_livery.png",
+    set_textures = set_textures,
+    set_livery = set_livery,
+    custom_may_destroy = function(wagon, puncher, time_from_last_punch, tool_capabilities, direction)
+        return not update_livery(wagon, puncher)
+    end,
+    drives_on={default=true},
+    max_speed=15,
+    seats={
+        {
+            name="1",
+            attach_offset={x=-4, y=0.5, z=10},-- 10
+            view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=0.5, z=0},
+            group="passenger",
+        },
+        {
+            name="2",
+            attach_offset={x=-4, y=0.5, z=8},
+            view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=0.5, z=0},
+            group="passenger",
+        },
+        {
+            name="3",
+            attach_offset={x=-4, y=0.5, z=0},
+            view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=0.5, z=0},
+            group="passenger",
+        },
+        {
+            name="4",
+            attach_offset={x=-4, y=0.5, z=-8},
+            view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=0.5, z=0},
+            group="passenger",
+        },
+    },
+    seat_groups = {
+        passenger={
+            name = "Passenger Area",
+            access_to = {"driver_stand"},
+            require_doors_open=true,
+        },
+    },
+    assign_to_seat_group={"passenger"},
+    is_locomotive=false,
+    drops={"default:steelblock 4"},
+    visual_size={x=1, y=1},
+    wagon_span=0.9,
+    collisionbox = {
+        -1.0, -0.5, -1.0,
+        1.0, 2.5, 1.0
+    },
+    custom_on_step = function(self, dtime, data, train)
+        if self.livery then
+            self.object:set_properties({
+                textures={
+                    -- self.livery..line,
+                    -- "type_9_wagon_interior.png",
+                    -- "type_9_door.png^"..self.door_livery_data,
+                    -- "type_9_seat.png^"..(self.seat_livery_data or "")
+                    "type_9_middle_overhead.png",
+                    "type_9_middle_exterior.png",
+                    "type_9_middle_interior.png",
+                    "type_9_seats.png",
+                    "type_9_undercarriage.png",
+                    "type_9_wheels.png", 
+                }
+            })
+        else
+            self.object:set_properties({
+                textures={
+                    -- "type_9_wagon_exterior.png"..line,
+                    -- "type_9_wagon_interior.png",
+                    -- "type_9_door.png",
+                    -- "type_9_seat.png"
+                    "type_9_middle_overhead.png",
+                    "type_9_middle_exterior.png",
+                    "type_9_middle_interior.png",
+                    "type_9_seats.png",
+                    "type_9_undercarriage.png",
+                    "type_9_wheels.png",
+                }
+            })
+        end
+    end
+}
+
 if use_attachment_patch then
     advtrains_attachment_offset_patch.setup_advtrains_wagon(subway_wagon_def);
 end
 advtrains.register_wagon("lrv_type_9", subway_wagon_def, "LRV Type 9 (Subways)", "type_9_inv.png")
+advtrains.register_wagon("lrv_type_9_middle", subway_wagon_middle_def, "LRV Type 9: Middle Section (Subways)", "type_9_middle_inv.png")
 
 -- Craft recipes
 minetest.register_craft({
     output="advtrains:lrv_type_9",
     recipe={
         {"default:steelblock", "default:steelblock", "default:steelblock"},
+        {"xpanes:pane_flat", "dye:dark_green", "xpanes:pane_flat"},
+        {"advtrains:wheel", "", "advtrains:wheel"}
+    }
+})
+minetest.register_craft({
+    output="advtrains:lrv_type_9_middle",
+    recipe={
+        {"", "default:steelblock", ""},
         {"xpanes:pane_flat", "dye:dark_green", "xpanes:pane_flat"},
         {"advtrains:wheel", "", "advtrains:wheel"}
     }
