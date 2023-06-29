@@ -3,8 +3,13 @@
 ### Note: a new updated version will be released on ContentDB sometime in the next few months. Here is what's being done:
 
 - [X] Add a Brown Subway Wagon
+- [X] Update the subway names so they're not just named after their colors
 - [ ] Redo the Green Subway Wagon (with support for [Advtrains Livery Tools](https://github.com/Marnack/advtrains_livery_tools))
+- [ ] Add the P3010 LRV (as in [#6](https://github.com/SamMatzko/minetest-subways/issues/6))
+- [ ] Add the HR4000 subway (as in [#6](https://github.com/SamMatzko/minetest-subways/issues/6))
 - [ ] Redo the Red Subway Wagon (with support for [Advtrains Livery Tools](https://github.com/Marnack/advtrains_livery_tools))
+
+### The rest of this README will be updated when version 2 is released on [ContentDB](https://content.minetest.net)
 
 This mod aims to add several unique, real subways to the [Advanced Trains](https://advtrains.de) mod, which seems to have a lack of good-looking subways. I will be actively adding more subways, so keep an eye out for new trains! Also, I'll be taking suggestions for any trains y'all want to see implemented; take a look below for more information.
 
