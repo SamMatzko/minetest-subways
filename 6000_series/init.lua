@@ -14,39 +14,39 @@ local function set_livery(self, puncher, itemstack, data)
 end
 
 -- The name of the mod used in registering for advtrains_livery_designer
-local mod_name = "subways_brown_subway_wagon"
+local mod_name = "subways_6000_series_wagon"
 
--- The template definitions for brown_subway_locomotive and brown_subway_wagon
+-- The template definitions for 6000_series_locomotive and 6000_series_wagon
 local livery_template_definition = {
-	name = "Brown Subway",
+	name = "6000-series",
 	designer = "Sylvester Kruin",
 	texture_license = "CC-BY-SA-3.0",
 	texture_creator = "Sylvester Kruin",
 	notes = "This template supports independent color overrides for the exterior accents.",
 	base_textures = {
-		"b_coupler.png",
-		"b_cube.png",
-		"b_doors.png",
-		"b_seat.png",
-		"b_undercarriage.png",
-		"b_wagon_exterior.png",
-		"b_wagon_interior.png",
-		"b_wheels.png",
+		"6000_coupler.png",
+		"6000_cube.png",
+		"6000_doors.png",
+		"6000_seat.png",
+		"6000_undercarriage.png",
+		"6000_wagon_exterior.png",
+		"6000_wagon_interior.png",
+		"6000_wheels.png",
 	},
 	overlays = {
-		[1] = {name = "Window Stripe", slot_idx = 6, texture = "b_wagon_exterior_overlay.png", alpha = 255},
-		[2] = {name = "Door Livery",   slot_idx = 3, texture = "b_doors_overlay.png",          alpha = 255},
-		[3] = {name = "Seat Color",    slot_idx = 4, texture = "b_seat_overlay.png",           alpha = 240},
-		[4] = {name = "Carpet Color",  slot_idx = 7, texture = "b_wagon_interior_overlay.png", alpha = 240},
+		[1] = {name = "Window Stripe", slot_idx = 6, texture = "6000_wagon_exterior_overlay.png", alpha = 255},
+		[2] = {name = "Door Livery",   slot_idx = 3, texture = "6000_doors_overlay.png",          alpha = 255},
+		[3] = {name = "Seat Color",    slot_idx = 4, texture = "6000_seat_overlay.png",           alpha = 240},
+		[4] = {name = "Carpet Color",  slot_idx = 7, texture = "6000_wagon_interior_overlay.png", alpha = 240},
 	},
 }
 -- Since the livery template definitions for locomotive and wagon are identical, just
 -- use a variable
 local livery_templates = {
-	["advtrains:brown_subway_locomotive"] = {
+	["advtrains:6000_series_locomotive"] = {
 		livery_template_definition
 	},
-	["advtrains:brown_subway_wagon"] = {
+	["advtrains:6000_series_wagon"] = {
 		livery_template_definition
 	}
 }
@@ -56,7 +56,7 @@ local predefined_livery_definition = {
 	name = "Classic Brown",
 	notes = "A classic brown livery",
 	livery_design = {
-		livery_template_name = "Brown Subway",
+		livery_template_name = "6000-series",
 		overlays = {
 			[1] = {id = 1, color = "#7D5343"},
 			[2] = {id = 2, color = "#FFFFFF"},
@@ -68,8 +68,8 @@ local predefined_livery_definition = {
 -- Same thing here; the predefined liveries for locomotive and wagon are identical,
 -- so we just use a variable
 local predefined_liveries = {
-	["advtrains:brown_subway_locomotive"] = predefined_livery_definition,
-	["advtrains:brown_subway_wagon"] = predefined_livery_definition,
+	["advtrains:6000_series_locomotive"] = predefined_livery_definition,
+	["advtrains:6000_series_wagon"] = predefined_livery_definition,
 }
 
 -- If advtrains_livery_designer is installed, setup and register the locomotive and wagon
@@ -161,14 +161,14 @@ local function set_textures(self, data)
 		self.floor_livery_data = data.floor
 		self.object:set_properties({
 			textures={
-				"b_coupler.png",
-				"b_cube.png",
+				"6000_coupler.png",
+				"6000_cube.png",
 				data.door,
 				data.seats,
-				"b_undercarriage.png",
+				"6000_undercarriage.png",
 				data.livery,
 				data.floor,
-				"b_wheels.png",
+				"6000_wheels.png",
 			}
 		})
 	end
@@ -178,19 +178,19 @@ end
 
 -- The image textures for the wagons
 local textures = {
-	"b_coupler.png",
-	"b_cube.png",
-	"b_doors.png",
-	"b_seat.png",
-	"b_undercarriage.png",
-	"b_wagon_exterior.png",
-	"b_wagon_interior.png",
-	"b_wheels.png",
+	"6000_coupler.png",
+	"6000_cube.png",
+	"6000_doors.png",
+	"6000_seat.png",
+	"6000_undercarriage.png",
+	"6000_wagon_exterior.png",
+	"6000_wagon_interior.png",
+	"6000_wheels.png",
 }
 
 -- Texture variables used for bike painter support
-local base_texture = "b_wagon_exterior.png"
-local base_livery = "b_wagon_exterior_overlay.png"
+local base_texture = "6000_wagon_exterior.png"
+local base_livery = "6000_wagon_exterior_overlay.png"
 
 -- This function checks if the train is being punched by the livery tool and, if so, activates it
 local custom_may_destroy = function(wagon, puncher, time_from_last_punch, tool_capabilities, direction)
@@ -204,32 +204,32 @@ local custom_on_step = function(self, dtime, data, train)
 	local line = ""
 	local line_number = tonumber(train.line)
 	if line_number and line_number <= 9 and line_number > 0 then
-		line = "^b_line_"..train.line..".png"
+		line = "^6000_line_"..train.line..".png"
 	end
 	if self.livery then
 		self.object:set_properties({
 			textures={
-				"b_coupler.png",
-				"b_cube.png",
+				"6000_coupler.png",
+				"6000_cube.png",
 				self.door_livery_data,
 				self.seat_livery_data,
-				"b_undercarriage.png",
+				"6000_undercarriage.png",
 				self.livery..line,
 				self.floor_livery_data,
-				"b_wheels.png",
+				"6000_wheels.png",
 			}
 		})
 	else
 		self.object:set_properties({
 			textures={
-				"b_coupler.png",
-				"b_cube.png",
-				"b_doors.png",
-				"b_seat.png",
-				"b_undercarriage.png",
-				"b_wagon_exterior.png"..line,
-				"b_wagon_interior.png",
-				"b_wheels.png",
+				"6000_coupler.png",
+				"6000_cube.png",
+				"6000_doors.png",
+				"6000_seat.png",
+				"6000_undercarriage.png",
+				"6000_wagon_exterior.png"..line,
+				"6000_wagon_interior.png",
+				"6000_wheels.png",
 			},
 		})
 	end
@@ -259,9 +259,9 @@ local coupler_type = {Tomlinson=true}
 -- The positions for the wheels (doesn't work with the ContentDB version of Advtrains)
 local wheel_positions = {2.1, -2.1}
 
--- The definition for brown_subway_locomotive
+-- The definition for 6000_series_locomotive
 local subway_locomotive_def = {
-    mesh="brown_subway_locomotive.b3d",
+    mesh="6000_series_locomotive.b3d",
 	base_texture = base_texture,
 	base_livery = base_livery,
     textures = textures,
@@ -367,9 +367,9 @@ local subway_locomotive_def = {
 	coupler_types_back = coupler_type
 }
 
--- The definition for brown_subway_wagon
+-- The definition for 6000_series_wagon
 local subway_wagon_def = {
-    mesh="brown_subway_wagon.b3d",
+    mesh="6000_series_wagon.b3d",
 	base_livery = base_livery,
 	base_texture = base_texture,
     textures = textures,
@@ -482,12 +482,12 @@ if use_attachment_patch then
 end
 
 -- Register the wagon and locomotive
-advtrains.register_wagon("brown_subway_locomotive", subway_locomotive_def, "Brown Subway Locomotive", "b_inv_locomotive.png")
-advtrains.register_wagon("brown_subway_wagon", subway_wagon_def, "Brown Subway Car", "b_inv_wagon.png")
+advtrains.register_wagon("6000_series_locomotive", subway_locomotive_def, "6000-series Locomotive (Subways)", "6000_inv_locomotive.png")
+advtrains.register_wagon("6000_series_wagon", subway_wagon_def, "6000-series Car (Subways)", "6000_inv_wagon.png")
 
 -- Craft recipes
 minetest.register_craft({
-	output="advtrains:brown_subway_wagon",
+	output="advtrains:6000_series_wagon",
 	recipe={
 		{"default:steelblock", "default:steelblock", "default:steelblock"},
 		{"xpanes:pane_flat", "dye:brown", "xpanes:pane_flat"},
@@ -495,10 +495,10 @@ minetest.register_craft({
 	}
 })
 minetest.register_craft({
-	output="advtrains:brown_subway_locomotive",
+	output="advtrains:6000_series_locomotive",
 	recipe={
 		{"", "", ""},
-		{"default:steelblock", "advtrains:brown_subway_wagon", "default:steelblock"},
+		{"default:steelblock", "advtrains:6000_series_wagon", "default:steelblock"},
 		{"", "", ""},
 	}
 })
