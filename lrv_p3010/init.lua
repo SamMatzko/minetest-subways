@@ -52,8 +52,18 @@ local subway_wagon_def = {
     },
     coupler_types_back = {p3010 = true},
     coupler_types_front = {Tomlinson = true},
-    is_locomotive = true,
     drives_on = {default = true},
+    doors = {
+        open = {
+            [-1] = {frames = {x = 1, y = 20}, time = 1},
+            [1] = {frames = {x = 40, y = 60}, time = 1},
+        },
+        close = {
+            [-1] = {frames = {x = 20, y = 40}, time = 1},
+            [1] = {frames = {x = 60, y = 80}, time = 1},
+        }
+    },
+    is_locomotive = true,
     max_speed = 15,
     wagon_span = 3.15,
 
