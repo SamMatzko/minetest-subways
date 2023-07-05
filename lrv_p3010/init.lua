@@ -46,11 +46,16 @@ local subway_wagon_def = {
     end,
 
     -- Train physical/interaction configuration
+    collisionbox = {
+	-1.0, -0.5, -1.0,
+	1.0, 2.5, 1.0
+    },
     coupler_types_back = {p3010 = true},
     coupler_types_front = {Tomlinson = true},
     is_locomotive = true,
     drives_on = {default = true},
     max_speed = 15,
+    wagon_span = 3.15,
 
     -- Seat/user configuration
     assign_to_seat_group = {"driver_stand", "passenger"},
