@@ -68,7 +68,7 @@ local subway_wagon_def = {
     wagon_span = 3.15,
 
     -- Seat/user configuration
-    assign_to_seat_group = {"driver_stand", "passenger"},
+    assign_to_seat_group = {"passenger", "driver_stand"},
     seats = {
         {
             name="Driver stand",
