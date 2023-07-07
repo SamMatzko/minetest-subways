@@ -1,5 +1,7 @@
 # [Minetest](https://minetest.net/) Subways - [ContentDB](https://content.minetest.net/packages/sylvester_kruin/subways/)
 
+[![ContentDB](https://content.minetest.net/packages/sylvester_kruin/subways/shields/downloads/)](https://content.minetest.net/packages/sylvester_kruin/subways/)
+
 ### Note: a new updated version will be released on ContentDB sometime in the next few months. Here is what's being done:
 
 - [X] Add a Brown Subway Wagon
