@@ -68,32 +68,43 @@ local subway_wagon_def = {
     wagon_span = 3.15,
 
     -- Seat/user configuration
-    assign_to_seat_group = {"passenger", "driver_stand"},
+    assign_to_seat_group = {"test", "passenger", "driver_stand"},
     seats = {
         {
-            name="Driver stand",
-            attach_offset={x=-4, y=0.5, z=18},
-            view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=0.5, z=0},
-            group="driver_stand",
+            name = "Driver stand",
+            attach_offset = {x = 0, y = 2, z = 22},
+            view_offset = use_attachment_patch and {x = 0, y = 0, z = 0} or {x = 0, y = 2, z = 0},
+            group = "driver_stand",
         },
         {
-            name="1",
-            attach_offset={x=-4, y=0.5, z=10},-- 10
-            view_offset=use_attachment_patch and {x=0, y=0, z=0} or {x=0, y=0.5, z=0},
-            group="passenger",
+            name = "Testerizationalizer",
+            attach_offset = {x = -5, y = 2, z = 0},
+            view_offset = use_attachment_patch and {x = 0, y = 0, z = 0} or {x = 0, y = 2, z = 0},
+            group = "test",
+        },
+        {
+            name = "991",
+            attach_offset = {x = -4, y = 2, z = 0},
+            view_offset = use_attachment_patch and {x = 0, y = 0, z = 0} or {x = 0, y = 2, z = 0},
+            group = "passenger",
         },
     },
     seat_groups = {
-        driver_stand={
+        driver_stand = {
             name = "Driver Stand",
             access_to = {"passenger"},
-            require_doors_open=true,
-            driving_ctrl_access=true,
+            require_doors_open = true,
+            driving_ctrl_access = true,
         },
-        passenger={
+        passenger = {
             name = "Passenger Area",
             access_to = {"driver_stand"},
-            require_doors_open=true,
+            require_doors_open = true,
+        },
+        test = {
+            name = "Test",
+            access_to = {"driver_stand", "passenger"},
+            require_doors_open = false,
         },
     },
 }
