@@ -7,9 +7,15 @@ local mod_name = "subways_lrv_p3010"
 local subway_wagon_def = {
     mesh = "p3010.b3d",
     textures = {
+        "p3010_coupler.png",
+        "p3010_doors.png",
+        "p3010_seats.png",
+        "p3010_undercarraige.png",
         "p3010_exterior.png",
+        "p3010_interior.png",
+        "p3010_wheels.png"
     },
- 
+
     -- Texture variables used when changing livery, lights, and line numbers
     base_texture = "p3010_exterior.png",
     current_light_texture = "",
@@ -20,7 +26,13 @@ local subway_wagon_def = {
     set_textures = function(self)
         self.object:set_properties({
             textures = {
-                self.base_texture.."^"..self.current_light_texture,
+                "p3010_coupler.png",
+                "p3010_doors.png",
+                "p3010_seats.png",
+                "p3010_undercarraige.png",
+                "p3010_exterior.png"..self.current_light_texture,
+                "p3010_interior.png",
+                "p3010_wheels.png",
             }
         })
     end,
@@ -32,10 +44,12 @@ local subway_wagon_def = {
             local data = advtrains.wagons[self.id]
             if velocity > 0 then
                 if data.wagon_flipped then
-                    self.current_light_texture = self.light_texture_backwards
+                    self.current_light_texture = "^"..self.light_texture_backwards
                 else
-                    self.current_light_texture = self.light_texture_forwards
+                    self.current_light_texture = "^"..self.light_texture_forwards
                 end
+            else
+                self.current_light_texture = ""
             end
         end
     end,
