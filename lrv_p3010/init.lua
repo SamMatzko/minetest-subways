@@ -10,7 +10,7 @@ local subway_wagon_def = {
         "p3010_coupler.png",
         "p3010_doors.png",
         "p3010_seats.png",
-        "p3010_undercarraige.png",
+        "p3010_undercarriage.png",
         "p3010_exterior.png",
         "p3010_interior.png",
         "p3010_wheels.png"
@@ -29,7 +29,7 @@ local subway_wagon_def = {
                 "p3010_coupler.png",
                 "p3010_doors.png",
                 "p3010_seats.png",
-                "p3010_undercarraige.png",
+                "p3010_undercarriage.png",
                 "p3010_exterior.png"..self.current_light_texture,
                 "p3010_interior.png",
                 "p3010_wheels.png",
