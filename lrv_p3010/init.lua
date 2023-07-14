@@ -126,15 +126,22 @@ local subway_wagon_def = {
     current_light_texture = "",
     light_texture_forwards = "p3010_light_forwards.png",
     light_texture_backwards = "p3010_light_backwards.png",
-    livery = "",
+    line_number = nil,
+    livery = nil,
 
     -- This function checks if the train is being punched by the livery tool and, if so, activates it
     custom_may_destroy = function(self, puncher, tiem_from_last_punch, tool_capabilities, direction)
         return not update_livery(self, puncher)
     end,
 
-    -- This function is called whenever the train is updated
+    -- This function is called whenever the train is updated, and sets the line numbers
     custom_on_step = function(self, dtime, data, train)
+
+        -- Set the line number variable
+        local line_number = tonumber(train.line)
+        if line_number and line_number <= 9 and line_number > 0 then
+            self.line_number = train.line
+        end
         self:update_textures()
     end,
 
@@ -177,14 +184,20 @@ local subway_wagon_def = {
 
     -- This function updates the textures based on the texture variables
     update_textures = function(self)
-        if self.livery ~= "" then
+
+        -- Select the correct image for the line number
+        local line_number_image = ""
+        if self.line_number ~= nil then
+            line_number_image = "^p3010_line"..self.line_number..".png"
+        end
+        if self.livery then
             self.object:set_properties({
                 textures = {
                     "p3010_coupler.png",
                     "p3010_doors.png",
                     self.seat_livery,
                     "p3010_undercarriage.png",
-                    self.livery..self.current_light_texture,
+                    self.livery..self.current_light_texture..line_number_image,
                     "p3010_interior.png",
                     "p3010_wheels.png",
                 }
@@ -196,7 +209,7 @@ local subway_wagon_def = {
                     "p3010_doors.png",
                     "p3010_seats.png",
                     "p3010_undercarriage.png",
-                    "p3010_exterior.png"..self.current_light_texture,
+                    "p3010_exterior.png"..self.current_light_texture..line_number_image,
                     "p3010_interior.png",
                     "p3010_wheels.png",
                 }
