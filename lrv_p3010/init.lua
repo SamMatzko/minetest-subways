@@ -242,7 +242,7 @@ local subway_wagon_def = {
     wheel_positions = {2.1, -3},
 
     -- Seat/user configuration
-    assign_to_seat_group = {"test", "passenger", "driver_stand"},
+    assign_to_seat_group = {"passenger", "driver_stand"},
     seats = {
         {
             name = "Driver stand",
