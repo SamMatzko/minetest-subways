@@ -6,7 +6,11 @@ local mod_name = "subways_hr4000"
 -- The definitions for registering the subway wagon with advtrains
 local subway_wagon_def = {
     mesh = "hr4000.b3d",
-    textures = {},
+    textures = {
+        "asdf.png",
+        "asdf2.png",
+        "asdf3.png"
+    },
 
     -- Train physical/interaction configuration
     collisionbox = {
@@ -40,7 +44,13 @@ local subway_wagon_def = {
             attach_offset = {x = 0, y = 2, z = 22},
             view_offset = use_attachment_patch and {x = 0, y = 0, z = 0} or {x = 0, y = 2, z = 0},
             group = "driver_stand",
-        }
+        },
+        {
+            name = "1",
+            attach_offset = {x = 0, y = 2, z = 0},
+            view_offset = use_attachment_patch and {x = 0, y = 0, z = 0} or {x = 0, y = 2, z = 0},
+            group = "passenger",
+        },
     },
     seat_groups = {
         driver_stand = {
@@ -48,6 +58,12 @@ local subway_wagon_def = {
             access_to = {"passenger"},
             require_doors_open = true,
             driving_ctrl_access = true,
+        },
+        passenger = {
+            name = "Passenger",
+            access_to = {"driver_stand"},
+            require_doors_open = true,
+            driving_ctrl_access = false
         },
     },
 }
