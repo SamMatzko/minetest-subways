@@ -7,9 +7,12 @@ local mod_name = "subways_hr4000"
 local subway_wagon_def = {
     mesh = "hr4000.b3d",
     textures = {
-        "asdf.png",
-        "asdf2.png",
-        "asdf3.png"
+        "hr4000_coupler.png",
+        "hr4000_seat.png",
+        "hr4000_undercarriage.png",
+        "hr4000_exterior.png",
+        "hr4000_interior.png",
+        "hr4000_wheels.png"
     },
 
     -- Train physical/interaction configuration
