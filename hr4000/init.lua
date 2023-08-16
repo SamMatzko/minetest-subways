@@ -37,7 +37,7 @@ local subway_wagon_def = {
     is_locomotive = true,
     max_speed = 15,
     wagon_span = 3.15,
-    wheel_positions = {2.1, -3},
+    wheel_positions = {2, -2},
 
     -- Seat/user configuration
     assign_to_seat_group = {"passenger", "driver_stand"},
