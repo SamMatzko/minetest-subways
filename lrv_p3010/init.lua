@@ -141,6 +141,8 @@ local subway_wagon_def = {
         local line_number = tonumber(train.line)
         if line_number and line_number <= 9 and line_number > 0 then
             self.line_number = train.line
+        else
+            self.line_number = nil
         end
         self:update_textures()
     end,
@@ -242,7 +244,7 @@ local subway_wagon_def = {
     wheel_positions = {2.1, -3},
 
     -- Seat/user configuration
-    assign_to_seat_group = {"passenger", "driver_stand"},
+    assign_to_seat_group = {"test", "passenger", "driver_stand"},
     seats = {
         {
             name = "Driver stand",
