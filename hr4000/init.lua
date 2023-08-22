@@ -9,7 +9,7 @@ local subway_wagon_def = {
     textures = {
         "hr4000_coupler.png",
         "hr4000_doors.png",
-        "hr4000_seat.png",
+        "hr4000_seats.png",
         "hr4000_undercarriage.png",
         "hr4000_exterior.png",
         "hr4000_interior.png",
