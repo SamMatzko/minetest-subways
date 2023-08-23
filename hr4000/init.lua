@@ -197,7 +197,7 @@ local subway_wagon_def = {
                     "hr4000_doors.png",
                     self.seat_livery,
                     "hr4000_undercarriage.png",
-                    self.livery..self.current_light_texture..line_number_image,
+                    self.livery.."^hr4000_exterior_overlay_overlay.png"..self.current_light_texture..line_number_image,
                     "hr4000_interior.png",
                     "hr4000_wheels.png"
                 }
@@ -209,7 +209,7 @@ local subway_wagon_def = {
                     "hr4000_doors.png",
                     "hr4000_seats.png",
                     "hr4000_undercarriage.png",
-                    "hr4000_exterior.png"..self.current_light_texture..line_number_image,
+                    "hr4000_exterior.png".."^hr4000_exterior_overlay_overlay.png"..self.current_light_texture..line_number_image,
                     "hr4000_interior.png",
                     "hr4000_wheels.png",
                 }
