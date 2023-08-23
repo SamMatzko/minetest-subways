@@ -43,10 +43,10 @@ local livery_template_definition = {
 -- Since the livery template definitions for locomotive and wagon are identical, just
 -- use a variable
 local livery_templates = {
-	["advtrains:6000_series_locomotive"] = {
+	[mod_name..":6000_series_locomotive"] = {
 		livery_template_definition
 	},
-	["advtrains:6000_series_wagon"] = {
+	[mod_name..":6000_series_wagon"] = {
 		livery_template_definition
 	}
 }
@@ -68,8 +68,8 @@ local predefined_livery_definition = {
 -- Same thing here; the predefined liveries for locomotive and wagon are identical,
 -- so we just use a variable
 local predefined_liveries = {
-	["advtrains:6000_series_locomotive"] = predefined_livery_definition,
-	["advtrains:6000_series_wagon"] = predefined_livery_definition,
+	[mod_name..":6000_series_locomotive"] = predefined_livery_definition,
+	[mod_name..":6000_series_wagon"] = predefined_livery_definition,
 }
 
 -- If advtrains_livery_designer is installed, setup and register the locomotive and wagon
@@ -482,12 +482,12 @@ if use_attachment_patch then
 end
 
 -- Register the wagon and locomotive
-advtrains.register_wagon("6000_series_locomotive", subway_locomotive_def, "6000-series Locomotive (Subways)", "6000_inv_locomotive.png")
-advtrains.register_wagon("6000_series_wagon", subway_wagon_def, "6000-series Car (Subways)", "6000_inv_wagon.png")
+advtrains.register_wagon(mod_name..":6000_series_locomotive", subway_locomotive_def, "6000-series Locomotive (Subways)", "6000_inv_locomotive.png")
+advtrains.register_wagon(mod_name..":6000_series_wagon", subway_wagon_def, "6000-series Car (Subways)", "6000_inv_wagon.png")
 
 -- Craft recipes
 minetest.register_craft({
-	output="advtrains:6000_series_wagon",
+	output=mod_name..":6000_series_wagon",
 	recipe={
 		{"default:steelblock", "default:steelblock", "default:steelblock"},
 		{"xpanes:pane_flat", "dye:brown", "xpanes:pane_flat"},
@@ -495,10 +495,10 @@ minetest.register_craft({
 	}
 })
 minetest.register_craft({
-	output="advtrains:6000_series_locomotive",
+	output=mod_name..":6000_series_locomotive",
 	recipe={
 		{"", "", ""},
-		{"default:steelblock", "advtrains:6000_series_wagon", "default:steelblock"},
+		{"default:steelblock", mod_name..":6000_series_wagon", "default:steelblock"},
 		{"", "", ""},
 	}
 })

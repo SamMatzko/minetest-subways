@@ -42,7 +42,7 @@ local predefined_livery = {
 if use_advtrains_livery_designer then
 
     -- The specific wagon name
-    local wagon_type = "advtrains:lrv_p3010"
+    local wagon_type = mod_name..":lrv_p3010"
 
     -- This function is called whenever the user presses the "Apply" button
     local function apply_wagon_livery_textures(player, wagon, textures)
@@ -327,11 +327,11 @@ if use_attachment_patch then
 end
 
 -- Register the subway wagon
-advtrains.register_wagon("lrv_p3010", subway_wagon_def, "LRV P3010 (Subways)", "p3010_inv.png")
+advtrains.register_wagon(mod_name..":lrv_p3010", subway_wagon_def, "LRV P3010 (Subways)", "p3010_inv.png")
 
 -- Crafting recipes
 minetest.register_craft({
-    output = "advtrains:lrv_p3010",
+    output = mod_name..":lrv_p3010",
     recipe = {
         {"default:steelblock", "default:steelblock", "default:steelblock"},
         {"xpanes:pane_flat", "dye:yellow", "xpanes:pane_flat"},
