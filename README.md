@@ -8,7 +8,7 @@
 - [X] Update the subway names so they're not just named after their colors
 - [ ] Redo the Green Subway Wagon (with support for [Advtrains Livery Tools](https://github.com/Marnack/advtrains_livery_tools))
 - [X] Add the P3010 LRV (as in [#6](https://github.com/SamMatzko/minetest-subways/issues/6))
-- [ ] Add the HR4000 subway (as in [#6](https://github.com/SamMatzko/minetest-subways/issues/6))
+- [X] Add the HR4000 subway (as in [#6](https://github.com/SamMatzko/minetest-subways/issues/6))
 - [ ] Redo the Red Subway Wagon (with support for [Advtrains Livery Tools](https://github.com/Marnack/advtrains_livery_tools))
 
 ### The rest of this README will be updated when version 2 is released on [ContentDB](https://content.minetest.net)
