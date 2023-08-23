@@ -141,6 +141,8 @@ local subway_wagon_def = {
         local line_number = tonumber(train.line)
         if line_number and line_number <= 9 and line_number > 0 then
             self.line_number = train.line
+        else
+            self.line_number = nil
         end
         self:update_textures()
     end,
