@@ -31,4 +31,4 @@ Of course without the bugfixes and features provided by other awesome users, thi
 
 
 ## Licenses
-The code is licensed under the [MIT](https://github.com/SamMatzko/minetest-subways/blob/master/LICENSE.txt); all media (including but not limited to Blender and GIMP files) is licensed under [CC-BY-SA-3.0](http://creativecommons.org/licenses/by-sa/3.0/).
+The code is licensed under the [AGPL-4.0](https://github.com/SamMatzko/minetest-subways/blob/master/LICENSE.txt); all media (including but not limited to Blender and GIMP files) is licensed under [CC-BY-SA-3.0](http://creativecommons.org/licenses/by-sa/3.0/).
