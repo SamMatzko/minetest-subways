@@ -3,3 +3,4 @@
 - Fix mod/train names so they're more logical
 - Add backwards-compatibility stuff, like registering aliases, if possible
 - Add functioning lights to remaining subways
+- Make sure dependencies are consistent
