@@ -1,0 +1,5 @@
+- Register Tomlinson coupler
+- Refactor code into one function to register all wagons
+- Fix mod/train names so they're more logical
+- Add backwards-compatibility stuff, like registering aliases, if possible
+- Add functioning lights to remaining subways
