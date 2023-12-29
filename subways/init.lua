@@ -1,14 +1,21 @@
 -- Optional supported mods
-local use_attachment_patch = advtrains_attachment_offset_patch and advtrains_attachment_offset_patch.setup_advtrains_wagon
+subways.use_attachment_patch = advtrains_attachment_offset_patch and advtrains_attachment_offset_patch.setup_advtrains_wagon
+local use_attachment_patch = subways.use_attachment_patch
 local use_advtrains_livery_designer = minetest.get_modpath("advtrains_livery_designer") and advtrains_livery_designer
 
 subways = {}
+advtrains.register_coupler_type("tomlinson", "Tomlinson Coupler")
 
 -- The main function that registers subway trains
 function subways.register_subway(subway_def)
 
     -- The mod name for this particular subway
     local mod_name = subway_def.mod_name
+    
+    -- Register a custom coupler type, if one is defined
+    if subway_def.custom_coupler then
+        advtrains.register_coupler_type(subway_def.custom_coupler.name, subway_def.custom_coupler.human_name)
+    end
 
     -- If the livery mod is installed, register this wagon with it
     if use_advtrains_livery_designer then
@@ -115,10 +122,9 @@ function subways.register_subway(subway_def)
     -- Create the final definitions used to register this wagon with Advanced Trains
     local advtrains_def = {
         mesh = subway_def.mesh,
-        textures = subway_def.textures,
+        textures = subway_def.textures.bases,
 
         -- Texture variables used when changing livery, lights, and line numbers
-        base_texture = subway_def.base_texture,
         current_light_texture = "",
         light_texture_forwards = subway_def.light_texture_forwards,
         light_texture_backwrds = subway_def.light_texture_backwards,
@@ -174,17 +180,6 @@ function subways.register_subway(subway_def)
             else return livery end
         end,
 
-        -- Add optional support for the bike painter, in case users don't want to use the livery mod
-        set_livery = function(self, puncher, itemstack, data)
-            local meta = itemstack:get_meta()
-            local color = meta:get_string("paint_color")
-            local alpha = tonumber(meta:get_string("alpha"))
-            if color and color:find("^#%x%x%x%x%x%x$") then
-                data.livery = self.base_texture.."^("..self.base_livery.."^[colorize:"..color..":255)"
-                self:set_textures(data)
-            end
-        end,
-
         -- This function is used to update the textures of the train based on a data table
         set_textures = function(self, data)
             if data.livery then
@@ -202,28 +197,6 @@ function subways.register_subway(subway_def)
             if self.line_number ~= nil then
                 line_number_image = "^"..subway_def.name..self.line_number..".png"
             end
-            local texturesfijewoijf = {
-                bases = {
-                    "hr4000_coupler.png",
-                    "hr4000_doors.png",
-                    "hr4000_seats.png",
-                    "hr4000_undercarriage.png",
-                    "hr4000_exterior.png",
-                    "hr4000_interior.png",
-                    "hr4000_wheels.png"
-                },
-
-                -- The difference between liveries and overlays here is that liveries replace the
-                -- texture at their index, whereas overlays are added on top, after the liveries,
-                -- in order of appearance.
-                liveries = {
-                    [3] = "seat_livery",
-                    [5] = "livery",
-                },
-                overlays = {
-                    [5] = {"hr4000_exterior_overlay_overlay.png", "current_light", "line_number"},
-                },
-            }
 
             -- Create the textures that are to be added to the train on update.
             -- This section handles arrangement and assignment of liveries and overlays.
@@ -281,23 +254,15 @@ function subways.register_subway(subway_def)
         wheel_positions = subway_def.wheel_positions,
 
         -- Seat/user configuration
-        assign_to_seat_group = subway_def.assign_to_seat_group,
+        assign_to_seat_group = assign_to_seat_group,
         seats = subway_def.seats,
-        seat_groups = {
-            driver_stand = {
-                name = "Driver Stand",
-                access_to = {"passenger"},
-                require_doors_open = true,
-                driving_ctrl_access = true,
-            },
-            passenger = {
-                name = "Passenger",
-                access_to = {"driver_stand"},
-                require_doors_open = true,
-                driving_ctrl_access = false
-            },
-        },
+        seat_groups = seat_groups,
     }
+
+    -- Enable support for advtrains_attachment_offset_patch
+    if use_attachment_patch then
+        advtrains_attachment_offset_patch.setup_advtrains_wagon(advtrains_def)
+    end
 
     -- Register this subway wagon with advtrains
     advtrains.register_wagon(mod_name..subway_def.wagon_name, advtrains_def, subway_def.human_name, wagon_dev.inv_img)
