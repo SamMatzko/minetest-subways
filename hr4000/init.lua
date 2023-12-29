@@ -2,6 +2,7 @@
 local subway_wagon_def = {
     mod_name = "subways_hr4000",
     name = "hr4000",
+    human_name = "HR4000 (Subways)",
     livery_template = {
         name = "HR4000",
         designer = "Sylvester Kruin",
@@ -55,10 +56,12 @@ local subway_wagon_def = {
     },
     light_texture_forwards = "hr4000_light_forwards.png",
     light_texture_backwards = "hr4000_light_backwards.png",
+    inv_img = "hr4000_inv.png",
     collisionbox = {
 	-1.0, -0.5, -1.0,
 	1.0, 2.5, 1.0
     },
+    custom_coupler = {name = "hr4000", human_name = "HR4000 Coupler"},
     coupler_types_back = {hr4000 = true},
     coupler_types_front = {tomlinson = true},
     is_locomotive = true,

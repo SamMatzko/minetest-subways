@@ -1,9 +1,10 @@
+subways = {}
+
 -- Optional supported mods
 subways.use_attachment_patch = advtrains_attachment_offset_patch and advtrains_attachment_offset_patch.setup_advtrains_wagon
 local use_attachment_patch = subways.use_attachment_patch
 local use_advtrains_livery_designer = minetest.get_modpath("advtrains_livery_designer") and advtrains_livery_designer
 
-subways = {}
 advtrains.register_coupler_type("tomlinson", "Tomlinson Coupler")
 
 -- The main function that registers subway trains
@@ -11,7 +12,7 @@ function subways.register_subway(subway_def)
 
     -- The mod name for this particular subway
     local mod_name = subway_def.mod_name
-    
+
     -- Register a custom coupler type, if one is defined
     if subway_def.custom_coupler then
         advtrains.register_coupler_type(subway_def.custom_coupler.name, subway_def.custom_coupler.human_name)
@@ -21,11 +22,11 @@ function subways.register_subway(subway_def)
     if use_advtrains_livery_designer then
 
         -- The livery definitions
-        local livery_template = subway_def.livery_temlate
+        local livery_template = subway_def.livery_template
         local predefined_livery = subway_def.predefined_livery
 
         -- The specific wgon name
-        local wagon_type = mod_name..":hr4000"
+        local wagon_type = mod_name..":"..subway_def.name
 
         -- This function is called whenever the user presses the "Apply" button
         local function apply_wagon_livery_textures(player, wagon, textures)
@@ -127,9 +128,10 @@ function subways.register_subway(subway_def)
         -- Texture variables used when changing livery, lights, and line numbers
         current_light_texture = "",
         light_texture_forwards = subway_def.light_texture_forwards,
-        light_texture_backwrds = subway_def.light_texture_backwards,
-        line_number = nil,
-        livery = nil,
+        light_texture_backwards = subway_def.light_texture_backwards,
+        line_number = "",
+        livery = "",
+        seat_livery = "",
 
         -- This function checks if the train is being punched by the livery tool and, if so, activates it
         custom_may_destroy = function(self, puncher, tiem_from_last_punch, tool_capabilities, direction)
@@ -172,12 +174,12 @@ function subways.register_subway(subway_def)
         -- whatever lights/headlamps/etc. are active at the moment, and "line_number", for the
         -- currently displayed line number. If the provided string is none of these, just use it as
         -- an image reference.
-        get_livery_or_overlay = function(self, livery)
-            if livery == "livery" then return self.livery
-            elseif livery == "seat_livery" then return self.seat_livery
-            elseif livery == "current_light" then return self.current_light_texture
-            elseif livery == "line_number" then return self.line_number_image
-            else return livery end
+        get_livery_or_overlay = function(self, l)
+            if l == "livery" then return self.livery
+            elseif l == "seat_livery" then return self.seat_livery
+            elseif l == "current_light" then return self.current_light_texture
+            elseif l == "line_number" then return self.line_number_image
+            else return l end
         end,
 
         -- This function is used to update the textures of the train based on a data table
@@ -205,13 +207,13 @@ function subways.register_subway(subway_def)
             local textures = {}
 
             -- Loop through the base textures and assign their respective liveries and overlays
-            for i,base in subway_def.textures.bases do 
+            for i,base in ipairs(subway_def.textures.bases) do
 
                 -- Apply  the liveries, if available
                 if self.livery then
                     local current_livery = subway_def.textures.liveries[i]
                     if current_livery then
-                        textures[i] = self.get_livery_or_overlay(current_livery)
+                        textures[i] = self.get_livery_or_overlay(self, current_livery)
                     end
 
                 -- Apply the overlays, if available
@@ -219,7 +221,7 @@ function subways.register_subway(subway_def)
                     local current_overlays = subway_def.textures.overlays
                     if current_overlays then
                         local total_overlays = base
-                        for o,overlay in current_overlays do
+                        for o,overlay in ipairs(current_overlays) do
                             total_overlays = total_overlays.."^"..self.get_livery_or_overlay(current_overlays[o])
                         end
                     end
@@ -265,5 +267,5 @@ function subways.register_subway(subway_def)
     end
 
     -- Register this subway wagon with advtrains
-    advtrains.register_wagon(mod_name..subway_def.wagon_name, advtrains_def, subway_def.human_name, wagon_dev.inv_img)
+    advtrains.register_wagon(mod_name..":"..subway_def.name, advtrains_def, subway_def.human_name, subway_def.inv_img)
 end
