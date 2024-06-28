@@ -56,13 +56,13 @@ local train_middle_def = {
     seat_groups = {
         passenger = {
             name = "Passenger",
-            access_to = {"driver_stand"},
+            access_to = {},
             require_doors_open = true,
             driving_ctrl_access = false,
         },
     },
     assign_to_seat_group = {"passenger"},
-    is_locomotive = true,
+    is_locomotive = false,
     wagon_span = 1.015,
     collisionbox = {
         -1.0, -0.5, -1.0,
