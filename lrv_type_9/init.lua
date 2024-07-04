@@ -42,7 +42,7 @@ local train_def = {
 
 local train_middle_def = {
     mesh = "type_9_middle.b3d",
-    textures = {"type_9.png"},
+    textures = {"type_9_middle.png"},
     drives_on = {default = true},
     max_speed = 20,
     seats = {
