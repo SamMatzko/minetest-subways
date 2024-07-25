@@ -38,6 +38,7 @@ local train_def = {
         assign_to_seat_group = {"driver_stand", "passenger"},
         is_locomotive = true,
         wagon_span = 3.1,
+        wheel_positions = {0.5, -3.1},
         collisionbox = {
             -1.0, -0.5, -1.0,
             1.0, 2.5, 1.0,
