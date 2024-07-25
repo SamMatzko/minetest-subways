@@ -111,6 +111,8 @@ local train_middle_def = {
                 driving_ctrl_access = false,
             },
         },
+        coupler_types_back = {lrv_type_9 = true},
+        coupler_types_front = {lrv_type_9 = true},
         assign_to_seat_group = {"passenger"},
         is_locomotive = false,
         wagon_span = 1.015,
