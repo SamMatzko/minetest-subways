@@ -95,9 +95,19 @@ function subways.register_subway(name, subway_def, readable_name, inv_image)
     local advtrains_def = {
 
         -- Wagon configuration variables
+        doors = {
+            open = {
+                [-1] = {frames = {x = 1, y = 20}, time = 1},
+                [1] = {frames = {x = 40, y = 60}, time = 1},
+            },
+            close = {
+                [-1] = {frames = {x = 20, y = 40}, time = 1},
+                [1] = {frames = {x = 60, y = 80}, time = 1},
+            }
+        },
         drives_on = {default = true},
 
-        -- Textures used when updating the appearance of the train
+        -- Variables used when updating the appearance of the train
         livery = nil,
 
         -- Functions for controlling the behavior of the wagon.
