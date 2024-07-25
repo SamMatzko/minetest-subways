@@ -1,9 +1,6 @@
 -- The coupler to join the main section to the middle section
 advtrains.register_coupler_type("lrv_type_9", "LRV Type 9 Coupler")
 
--- For use in registering liveries
-local mod_name = "lrv_type_9"
-
 local train_def = {
     mesh = "type_9.b3d",
     textures = {"type_9.png"},
@@ -116,7 +113,7 @@ local train_middle_def = {
         assign_to_seat_group = {"passenger"},
         is_locomotive = false,
         wagon_span = 1.015,
-        wheel_positions = {-1, 1},
+        wheel_positions = {-0.6, 0.6},
         collisionbox = {
             -1.0, -0.5, -0.7,
             1.0, 2.5, 0.7,
