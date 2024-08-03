@@ -2,9 +2,37 @@
 advtrains.register_coupler_type("lrv_type_9", "LRV Type 9 Coupler")
 
 local train_def = {
+    livery_def = {
+        livery_template = {
+            name = "LRV Type 9",
+            designer = "Sam Matzko",
+            texture_license = "CC-BY-SA-3.0",
+            texture_creator = "Sam Matzko",
+            notes = "Color override for exterior accents.",
+            base_textures = {
+                "type_9.png",
+            },
+            overlays = {
+                [1] = {name = "Exterior Accents", slot_idx = 1, texture = "type_9_livery.png", alpha = 255},
+            },
+        },
+        predefined_livery = {
+            name = "Standard Green",
+            notes = "The default green color scheme.",
+            livery_design = {
+                livery_template_name = "LRV Type 9",
+                overlays = {
+                    [1] = {id = 1, color = "#00782B"},
+                },
+            },
+        },
+    },
     wagon_def = {
         mesh = "type_9.b3d",
-        textures = {"type_9.png"},
+        textures = {
+            "type_9.png",
+            "type_9_displays.png",
+        },
         drives_on = {default = true},
         max_speed = 20,
         seats = {
@@ -35,6 +63,8 @@ local train_def = {
                 driving_ctrl_access = false,
             },
         },
+        coupler_types_back = {lrv_type_9 = true},
+        coupler_types_front = {tomlinson = true},
         assign_to_seat_group = {"driver_stand", "passenger"},
         is_locomotive = true,
         wagon_span = 3.1,

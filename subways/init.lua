@@ -1,5 +1,8 @@
 subways = {}
 
+-- Register the Tomlinson coupler
+advtrains.register_coupler_type("tomlinson", "Tomlinson Coupler")
+
 -- Variables for optional mod availability
 subways.use_advtrains_livery_designer = minetest.get_modpath("advtrains_livery_designer") and advtrains_livery_designer
 subways.use_attachment_patch = advtrains_attachment_offset_patch and advtrains_attachment_offset_patch.setup_advtrains_wagon
