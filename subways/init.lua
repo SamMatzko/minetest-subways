@@ -10,7 +10,7 @@ subways.use_attachment_patch = advtrains_attachment_offset_patch and advtrains_a
 -- Joins the key/value pairs of two tables into one table.
 function join_tables(table1, table2)
     local new_table = {}
-    for k,v in pairs(table1) do
+    for k, v in pairs(table1) do
         new_table[k] = v
     end
     for k, v in pairs(table2) do
@@ -19,7 +19,7 @@ function join_tables(table1, table2)
     return new_table
 end
 
--- Register a subway wagon. Handles all the 
+-- Register a subway wagon. Handles all the shared functions and things
 function subways.register_subway(name, subway_def, readable_name, inv_image)
 
     -- The "mod name" is really just the name of the subway wagon.
