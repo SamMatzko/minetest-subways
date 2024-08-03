@@ -146,6 +146,13 @@ function subways.register_subway(name, subway_def, readable_name, inv_image)
         advtrains_attachment_offset_patch.setup_advtrains_wagon(complete_def)
     end
 
+    -- Register the crafting recipe and drops
+    -- For now, this only supports default
+    if default and minetest.get_modpath("default") then
+        minetest.register_craft(subway_def.craft)
+        complete_def.drops = {"default:steelblock 2"}
+    end
+
     -- Register the train with AdvTrains.
     advtrains.register_wagon(mod_name..":"..name, complete_def, readable_name, inv_image)
 end

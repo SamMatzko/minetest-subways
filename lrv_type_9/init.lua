@@ -2,6 +2,14 @@
 advtrains.register_coupler_type("lrv_type_9", "LRV Type 9 Coupler")
 
 local train_def = {
+    craft = {
+        output = "subways_lrv_type_9:lrv_type_9",
+        recipe = {
+            {"default:steelblock", "default:steelblock", "default:steelblock"},
+            {"xpanes:pane_flat", "dye:dark_green", "xpanes:pane_flat"},
+            {"advtrains:wheel", "", "advtrains:wheel"},
+        },
+    },
     livery_def = {
         livery_template = {
             name = "LRV Type 9",
@@ -77,6 +85,14 @@ local train_def = {
 }
 
 local train_middle_def = {
+    craft = {
+        output = "subways_lrv_type_9_middle:lrv_type_9_middle",
+        recipe = {
+            {"default:steelblock", "", "default:steelblock"},
+            {"xpanes:pane_flat", "dye:dark_green", "xpanes:pane_flat"},
+            {"advtrains:wheel", "", "advtrains:wheel"},
+        },
+    },
     livery_def = {
         livery_template = {
             name = "LRV Type 9 Middle Section",
