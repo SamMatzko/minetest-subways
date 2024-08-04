@@ -1,4 +1,5 @@
 subways = {}
+local modpath = minetest.get_modpath("subways")
 
 -- Register the Tomlinson coupler
 advtrains.register_coupler_type("tomlinson", "Tomlinson Coupler")
@@ -6,6 +7,17 @@ advtrains.register_coupler_type("tomlinson", "Tomlinson Coupler")
 -- Variables for optional mod availability
 subways.use_advtrains_livery_designer = minetest.get_modpath("advtrains_livery_designer") and advtrains_livery_designer
 subways.use_attachment_patch = advtrains_attachment_offset_patch and advtrains_attachment_offset_patch.setup_advtrains_wagon
+
+-- The font used for the displays
+local font = unicode_text.hexfont({
+    background_color = {0, 0, 0, 0},
+    foreground_color = {255, 255, 255, 255},
+    kerning = false,
+})
+font:load_glyphs(io.lines(modpath.."/unifont.hex"))
+font:load_glyphs(io.lines(modpath.."/unifont_upper.hex"))
+font:load_glyphs(io.lines(modpath.."/plane00csur.hex"))
+font:load_glyphs(io.lines(modpath.."/plane0Fcsur.hex"))
 
 -- Joins the key/value pairs of two tables into one table.
 function join_tables(table1, table2)
@@ -111,13 +123,27 @@ function subways.register_subway(name, subway_def, readable_name, inv_image)
         drives_on = {default = true},
 
         -- Variables used when updating the appearance of the train
+        displays = subway_def.displays or {},
+        line = nil,
         livery = nil,
+        text_outside = nil,
 
         -- Functions for controlling the behavior of the wagon.
 
         -- Checks if the train is being punched by the livery tool and, if so, activates it.
         custom_may_destroy = function(self, puncher, time_from_last_punch, tool_capabilities, direction)
             return not update_livery(self, puncher)
+        end,
+
+        -- Runs every step. Updates train data and textures as needed.
+        custom_on_step = function(self, dtime, data, train)
+
+            -- Update the train line and outside text
+            if self.line ~= train.line or self.text_outsdie ~= train.text_outside then
+                self.line = train.line
+                self.text_outside = train.text_outside
+                self:update_textures()
+            end
         end,
 
         -- Used to update the textures of the train based on the data table
@@ -130,11 +156,66 @@ function subways.register_subway(name, subway_def, readable_name, inv_image)
 
         -- Updates the wagon's textures based on the texture variables.
         update_textures = function(self)
+
+            -- Used to set the textures
+            local textures = self.object:get_properties().textures
+
+            -- The livery
             if self.livery then
-                self.object:set_properties({textures = {self.livery}})
+                textures = {self.livery}
             else
-                self.object:set_properties({textures = {self.base_texture}})
+                textures = {self.base_texture}
             end
+
+
+            -- The displays
+
+            -- unicode_text has a bug that doesn't allow strings starting with numbers.
+            local offset = 0
+            if self.line:sub(1,1):match("%d") then
+                self.line = " "..self.line
+                offset = 8
+            end
+
+            for _, display in ipairs(self.displays) do
+
+                -- Create the text texture
+                local image
+                if display.display == "line" then
+                    image = tga_encoder.image(font:render_text(self.line or " "))
+                elseif display.display == "text_outside" then
+                    image = tga_encoder.image(font:render_text(self.text_outside or " "))
+                else
+                    error("Invalid display \""..display.display.."\". Must be either \"line\" or \"text_outside\".")
+                end
+
+                image:encode({
+                    colormap = {},
+                    compression = "RLE",
+                    color_format = "B8G8R8A8",
+                })
+                local height = image.height
+                local width = image.width
+                local image_string = minetest.encode_base64(image.data)
+                local display_texture = "\\[png\\:"..image_string.."\\^\\[multiply\\:#FFBB00"
+                local x_pos = math.floor((display.background_size - width) / 2)
+
+                -- Place the text texture
+                textures[display.slot] = "[combine:"
+                    ..display.background_size
+                    .."x"
+                    ..display.background_size
+                    ..":0,0=subways_displays.png:"
+                    ..(x_pos - offset)
+                    ..","
+                    ..display.offset.y
+                    .."=("
+                    ..display_texture
+                    ..")"
+            end
+
+            -- Apply the textures
+            self.object:set_properties({textures = textures})
         end,
     }
 

@@ -10,6 +10,20 @@ local train_def = {
             {"advtrains:wheel", "", "advtrains:wheel"},
         },
     },
+    displays = {
+        {
+            background_size = 140,
+            display = "line",
+            offset = {x = 16, y = 2},
+            slot = 2,
+        },
+        {
+            background_size = 140,
+            display = "line",
+            offset = {x = 0, y = 15},
+            slot = 3,
+        },
+    },
     livery_def = {
         livery_template = {
             name = "LRV Type 9",
@@ -39,8 +53,11 @@ local train_def = {
         mesh = "type_9.b3d",
         textures = {
             "type_9.png",
-            "type_9_displays.png",
+            --"[combine:130x130:0,0=type_9_displays.png:"..(x_pos+16)..",3=("..front_display_texture..")",
+            "subways_displays.png",
+            "subways_displays.png",
         },
+        base_texture = "type_9.png",
         drives_on = {default = true},
         max_speed = 20,
         seats = {
