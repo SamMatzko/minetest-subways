@@ -172,7 +172,7 @@ function subways.register_subway(name, subway_def, readable_name, inv_image)
 
             -- unicode_text has a bug that doesn't allow strings starting with numbers.
             local offset = 0
-            if self.line:sub(1,1):match("%d") then
+            if self.line and self.line:sub(1,1):match("%d") then
                 self.line = " "..self.line
                 offset = 8
             end
