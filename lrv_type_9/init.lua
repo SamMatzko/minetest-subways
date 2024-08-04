@@ -53,7 +53,6 @@ local train_def = {
         mesh = "type_9.b3d",
         textures = {
             "type_9.png",
-            --"[combine:130x130:0,0=type_9_displays.png:"..(x_pos+16)..",3=("..front_display_texture..")",
             "subways_displays.png",
             "subways_displays.png",
         },
