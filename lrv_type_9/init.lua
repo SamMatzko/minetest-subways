@@ -57,6 +57,10 @@ local train_def = {
             "subways_displays.png",
         },
         base_texture = "type_9.png",
+        base_texture_size = 470,
+        light_texture_backwards = "type_9_backwards.png",
+        light_texture_forwards = "type_9_forwards.png",
+        light_texture_pos = {x = 242, y = 338},
         drives_on = {default = true},
         max_speed = 20,
         seats = {

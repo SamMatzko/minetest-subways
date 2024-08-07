@@ -19,6 +19,13 @@ font:load_glyphs(io.lines(modpath.."/unifont_upper.hex"))
 font:load_glyphs(io.lines(modpath.."/plane00csur.hex"))
 font:load_glyphs(io.lines(modpath.."/plane0Fcsur.hex"))
 
+-- Escapes an image string so it can be used as an image
+function escape_image_string(s)
+    return string.gsub(s, "[:[^]", function (x)
+        return "\\"..x
+    end)
+end
+
 -- Joins the key/value pairs of two tables into one table.
 function join_tables(table1, table2)
     local new_table = {}
@@ -123,6 +130,7 @@ function subways.register_subway(name, subway_def, readable_name, inv_image)
         drives_on = {default = true},
 
         -- Variables used when updating the appearance of the train
+        current_light_texture = "",
         displays = subway_def.displays or {},
         line = nil,
         livery = nil,
@@ -142,6 +150,23 @@ function subways.register_subway(name, subway_def, readable_name, inv_image)
             if self.line ~= train.line or self.text_outsdie ~= train.text_outside then
                 self.line = train.line
                 self.text_outside = train.text_outside
+                self:update_textures()
+            end
+        end,
+
+        -- Used to update the train's lights
+        custom_on_velocity_change = function(self, velocity, old_velocity)
+            if velocity ~= old_velocity then
+                local data = advtrains.wagons[self.id]
+                if velocity > 0 then
+                    if data.wagon_flipped then
+                        self.current_light_texture = self.light_texture_backwards
+                    else
+                        self.current_light_texture = self.light_texture_forwards
+                    end
+                else
+                    self.current_light_texture = ""
+                end
                 self:update_textures()
             end
         end,
@@ -167,6 +192,21 @@ function subways.register_subway(name, subway_def, readable_name, inv_image)
                 textures = {self.base_texture}
             end
 
+            -- The lights
+            if self.current_light_texture ~= "" then
+                textures[1] = "[combine:"
+                    ..self.base_texture_size
+                    .."x"
+                    ..self.base_texture_size
+                    ..":0,0=("
+                    ..escape_image_string(textures[1])
+                    .."):"
+                    ..self.light_texture_pos.x
+                    ..","
+                    ..self.light_texture_pos.y
+                    .."="
+                    ..self.current_light_texture
+            end
 
             -- The displays
 
