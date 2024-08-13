@@ -77,7 +77,7 @@ local train_def = {
         coupler_types_front = {tomlinson = true},
         assign_to_seat_group = {"passenger", "driver_stand"},
         is_locomotive = true,
-        wagon_span = 3.1,
+        wagon_span = 3.56,
         wheel_position = {1, -1},
         collisionbox = {
             -1.0, -0.5, -1.0,
