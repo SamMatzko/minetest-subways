@@ -150,13 +150,13 @@ function subways.register_subway(name, subway_def, readable_name, inv_image)
             if self.line ~= train.line or self.text_outsdie ~= train.text_outside then
                 self.line = train.line
                 self.text_outside = train.text_outside
-                self:update_textures()
+                self:update_textures(true)
             end
         end,
 
         -- Used to update the train's lights
         custom_on_velocity_change = function(self, velocity, old_velocity)
-            if velocity ~= old_velocity then
+            if velocity ~= old_velocity and (velocity == 0 or old_velocity == 0) then
                 local data = advtrains.wagons[self.id]
                 if velocity > 0 then
                     if data.wagon_flipped then
@@ -180,7 +180,7 @@ function subways.register_subway(name, subway_def, readable_name, inv_image)
         end,
 
         -- Updates the wagon's textures based on the texture variables.
-        update_textures = function(self)
+        update_textures = function(self, update_text)
 
             -- Used to set the textures
             local textures = self.object:get_properties().textures
@@ -209,49 +209,52 @@ function subways.register_subway(name, subway_def, readable_name, inv_image)
             end
 
             -- The displays
-
-            -- unicode_text has a bug that doesn't allow strings starting with numbers.
-            local offset = 0
-            if self.line and self.line:sub(1,1):match("%d") then
-                self.line = " "..self.line
-                offset = 8
-            end
-
             for _, display in ipairs(self.displays) do
 
-                -- Create the text texture
-                local image
-                if display.display == "line" then
-                    image = tga_encoder.image(font:render_text(self.line or " "))
-                elseif display.display == "text_outside" then
-                    image = tga_encoder.image(font:render_text(self.text_outside or " "))
-                else
-                    error("Invalid display \""..display.display.."\". Must be either \"line\" or \"text_outside\".")
+                -- unicode_text has a bug that doesn't allow strings starting with numbers.
+                local offset = 0
+                if self.line and self.line:sub(1,1):match("%d") then
+                    self.line = " "..self.line
+                    offset = 8
                 end
 
-                image:encode({
-                    colormap = {},
-                    compression = "RLE",
-                    color_format = "B8G8R8A8",
-                })
-                local height = image.height
-                local width = image.width
-                local image_string = minetest.encode_base64(image.data)
-                local display_texture = "\\[png\\:"..image_string.."\\^\\[multiply\\:#FFBB00"
-                local x_pos = math.floor((display.background_size - width) / 2)
+                -- Only update the text if the line has changed
+                if update_text then
 
-                -- Place the text texture
-                textures[display.slot] = "[combine:"
-                    ..display.background_size
-                    .."x"
-                    ..display.background_size
-                    ..":0,0=subways_displays.png:"
-                    ..(x_pos - offset)
-                    ..","
-                    ..display.offset.y
-                    .."=("
-                    ..display_texture
-                    ..")"
+                    -- Create the text texture
+                    local image
+                    if display.display == "line" then
+                        image = tga_encoder.image(font:render_text(self.line or " "))
+                    else
+                        error("Invalid display \""..display.display.."\". Must be \"line\".")
+                    end
+                    image:encode({
+                        colormap = {},
+                        compression = "RLE",
+                        color_format = "B8G8R8A8",
+                    })
+                    local height = image.height
+                    local width = image.width
+                    local image_string = minetest.encode_base64(image.data)
+                    local display_texture = "\\[png\\:"..image_string.."\\^\\[multiply\\:#FFBB00"
+                    local x_pos = math.floor((display.background_size - width) / 2)
+
+                    -- Place the text texture
+                    textures[display.slot] = "[combine:"
+                        ..display.background_size
+                        .."x"
+                        ..display.background_size
+                        ..":0,0=subways_displays.png:"
+                        ..(x_pos - offset)
+                        ..","
+                        ..display.offset.y
+                        .."=("
+                        ..display_texture
+                        ..")"
+                else
+                    -- Just use the texture that's already there
+                    textures[display.slot] = self.object:get_properties().textures[display.slot]
+                end
             end
 
             -- Apply the textures
