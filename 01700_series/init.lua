@@ -7,7 +7,20 @@ local train_def = {
             {"advtrains:wheel", "", "advtrains:wheel"},
         },
     },
-    displays = {},
+    displays = {
+        {
+            background_size = 100,
+            display = "line",
+            offset = {x = 0, y = -2},
+            slot = 2,
+        },
+        {
+            background_size = 100,
+            display = "line",
+            offset = {x = 0, y = 0},
+            slot = 3,
+        },
+    },
     livery_def = {
         livery_template = {
             name = "01700 Series",
@@ -36,28 +49,72 @@ local train_def = {
     wagon_def = {
         mesh = "01700_series.b3d",
         textures = {
-            "01700_series.png"
+            "01700_series.png",
+            "subways_displays.png",
+            "subways_displays.png",
         },
         base_texture = "01700_series.png",
-        base_texture_size = 470,
+        base_texture_size = 400,
         light_texture_backwards = "01700_series_backwards.png",
         light_texture_forwards = "01700_series_forwards.png",
-        light_texture_pos = {x = 0, y = 0},
+        light_texture_pos = {x = 224, y = 282},
         drives_on = {default = true},
         max_speed = 20,
         seats = {
             {
                 name = "driver_stand",
-                attach_offset = {x = 0, y = 0, z = 0},
+                attach_offset = {x = -4, y = 3, z = 28},
                 view_offset = {x = 0, y = 0, z = 0},
                 group = "driver_stand",
             },
             {
-                name = "passenger",
-                attach_offset = {x = 0, y = 0, z = 0},
+                name = "1",
+                attach_offset = {x = 4, y = 3, z = 0},
                 view_offset = {x = 0, y = 0, z = 0},
                 group = "passenger",
-            }
+            },
+            {
+                name = "2",
+                attach_offset = {x = -4, y = 3, z = 0},
+                view_offset = {x = 0, y = 0, z = 0},
+                group = "passenger",
+            },
+            {
+                name = "3",
+                attach_offset = {x = 4, y = 3, z = 7},
+                view_offset = {x = 0, y = 0, z = 0},
+                group = "passenger",
+            },
+            {
+                name = "4",
+                attach_offset = {x = -4, y = 3, z = 7},
+                view_offset = {x = 0, y = 0, z = 0},
+                group = "passenger",
+            },
+            {
+                name = "5",
+                attach_offset = {x = 4, y = 3, z = -7},
+                view_offset = {x = 0, y = 0, z = 0},
+                group = "passenger",
+            },
+            {
+                name = "6",
+                attach_offset = {x = -4, y = 3, z = -7},
+                view_offset = {x = 0, y = 0, z = 0},
+                group = "passenger",
+            },
+            {
+                name = "7",
+                attach_offset = {x = 4, y = 3, z = -29},
+                view_offset = {x = 0, y = 0, z = 0},
+                group = "passenger",
+            },
+            {
+                name = "9",
+                attach_offset = {x = -4, y = 3, z = -29},
+                view_offset = {x = 0, y = 0, z = 0},
+                group = "passenger",
+            },
         },
         seat_groups = {
             driver_stand = {
