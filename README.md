@@ -31,4 +31,4 @@ If you have a modification you've made and you'd like to submit it, you're welco
 Development assets for this repository are stored at [minetest-subways-dev-assets](https://github.com/SamMatzko/minetest-subways-dev-assets).
 
 ## Licenses
-The code is licensed under the [AGPL-4.0](https://github.com/SamMatzko/minetest-subways/blob/master/LICENSE.txt); all media (3D files, image textures, etc.) is licensed under [CC-BY-SA-3.0](http://creativecommons.org/licenses/by-sa/3.0/).
+The code is licensed under the [AGPL-3.0](https://github.com/SamMatzko/minetest-subways/blob/master/LICENSE.txt); all media (3D files, image textures, etc.) is licensed under [CC-BY-SA-3.0](http://creativecommons.org/licenses/by-sa/3.0/).
