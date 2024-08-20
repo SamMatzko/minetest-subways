@@ -62,7 +62,7 @@ local train_def = {
         light_texture_forwards = "type_9_forwards.png",
         light_texture_pos = {x = 242, y = 338},
         drives_on = {default = true},
-        max_speed = 20,
+        max_speed = 15,
         seats = {
             {
                 name = "driver_stand",
