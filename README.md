@@ -13,7 +13,7 @@ While the trains may look similar at first glance, a lot has changed. Here are s
 - Support for [AdvTrains Livery Tools](https://content.minetest.net/packages/Marnack/advtrains_livery_tools/)
 - Exterior displays with expansive Unicode support
 - Drastic under-the-hood code cleanup and refactoring
-- Removal of development assets to a [different repository](https://github.com/SamMatzko/minetest-subways-dev-assets) to reduce package size (unfortunately offset by the size of the Unicode fonts)
+- Removal of development assets to a [different repository](https://github.com/SamMatzko/minetest-subways-dev-assets) to reduce package size
 
 ## Usage
 ### Setting the train color
