@@ -7,6 +7,9 @@ This mod aims to add several unique, real-world subway trains to Minetest's Adva
 > [!WARNING]
 > Unfortunately, the 2.0 update brings breaking changes. If you have a pre-2.0 version installed, be aware that the new subway trains have different names, so any existing Green Subway Wagon or Red Subway Wagon trains will no longer appear correctly.
 
+> [!NOTE]
+> Aliases have now been registered for backwards compatibility with 1.X. However, for the feature to work, you need to use the [AdvTrains patch "Alias for wagon types"](https://lists.sr.ht/~gpcf/advtrains-devel/patches/54786).
+
 ## What's different about version 2.0?
 While the trains may look similar at first glance, a lot has changed. Here are some of the biggest new features:
 - Mesh and texture redo to improve quality and detail
