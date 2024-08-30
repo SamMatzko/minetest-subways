@@ -228,3 +228,7 @@ local train_middle_def = {
 
 subways.register_subway("lrv_type_9", train_def, "LRV Type 9", "type_9_inv.png")
 subways.register_subway("lrv_type_9_middle", train_middle_def, "LRV Type 9 Middle Section", "type_9_middle_inv.png")
+
+if advtrains.register_wagon_alias then
+    advtrains.register_wagon_alias("advtrains:green_subway_wagon", "subways_lrv_type_9:lrv_type_9")
+end
