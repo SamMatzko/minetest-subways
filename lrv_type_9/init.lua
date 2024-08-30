@@ -127,6 +127,7 @@ local train_def = {
                 driving_ctrl_access = false,
             },
         },
+	    door_entry = { 2, -1.7 },
         coupler_types_back = {lrv_type_9 = true},
         coupler_types_front = {tomlinson = true},
         assign_to_seat_group = {"passenger", "driver_stand"},
