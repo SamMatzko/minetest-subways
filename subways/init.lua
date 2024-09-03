@@ -183,7 +183,7 @@ function subways.register_subway(name, subway_def, readable_name, inv_image)
         update_textures = function(self, update_text)
 
             -- Used to set the textures
-            local textures = self.object:get_properties().textures
+            local textures
 
             -- The livery
             if self.livery then
