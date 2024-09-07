@@ -20,14 +20,14 @@ font:load_glyphs(io.lines(modpath.."/plane00csur.hex"))
 font:load_glyphs(io.lines(modpath.."/plane0Fcsur.hex"))
 
 -- Escapes an image string so it can be used as an image
-function escape_image_string(s)
+local function escape_image_string(s)
     return string.gsub(s, "[:[^]", function (x)
         return "\\"..x
     end)
 end
 
 -- Joins the key/value pairs of two tables into one table.
-function join_tables(table1, table2)
+local function join_tables(table1, table2)
     local new_table = {}
     for k, v in pairs(table1) do
         new_table[k] = v
@@ -183,6 +183,7 @@ function subways.register_subway(name, subway_def, readable_name, inv_image)
         update_textures = function(self, update_text)
 
             -- Used to set the textures
+            local old_props = self.object:get_properties()
             local textures
 
             -- The livery
@@ -210,11 +211,22 @@ function subways.register_subway(name, subway_def, readable_name, inv_image)
 
             -- The displays
             for _, display in ipairs(self.displays) do
+                local text
+
+                if display.display == "line" then
+                    text = self.line
+                elseif display.display == "outside_first_line" then
+                    -- Get first line of outside text
+                    local _, _, matched = string.find(self.text_outside, "([^\n]*)\n?.*")
+                    text = matched or ""
+                else
+                    error("Unexpected display type " .. display.display)
+                end
 
                 -- unicode_text has a bug that doesn't allow strings starting with numbers.
                 local offset = 0
-                if self.line and self.line:sub(1,1):match("%d") then
-                    self.line = " "..self.line
+                if text and text:sub(1,1):match("%d") then
+                    text = " "..text
                     offset = 8
                 end
 
@@ -222,12 +234,7 @@ function subways.register_subway(name, subway_def, readable_name, inv_image)
                 if update_text then
 
                     -- Create the text texture
-                    local image
-                    if display.display == "line" then
-                        image = tga_encoder.image(font:render_text(self.line or " "))
-                    else
-                        error("Invalid display \""..display.display.."\". Must be \"line\".")
-                    end
+                    local image = tga_encoder.image(font:render_text(text or " "))
                     image:encode({
                         colormap = {},
                         compression = "RLE",
@@ -253,7 +260,7 @@ function subways.register_subway(name, subway_def, readable_name, inv_image)
                         ..")"
                 else
                     -- Just use the texture that's already there
-                    textures[display.slot] = self.object:get_properties().textures[display.slot]
+                    textures[display.slot] = old_props.textures[display.slot]
                 end
             end
 
