@@ -10,7 +10,7 @@ This mod aims to add several unique, real-world subway trains to Minetest's Adva
 > [!NOTE]
 > Aliases have now been registered for backwards compatibility with 1.x. However, for the feature to work, you need to use the [AdvTrains patch "Alias for wagon types"](https://lists.sr.ht/~gpcf/advtrains-devel/patches/54786).
 >
-> The displays are now set using the "Outside Text" field.
+> The displays are now set using the first line of the "Outside Text" field.
 
 ## Features
 Here are some features that Subways 2 brings:
@@ -23,7 +23,7 @@ Here are some features that Subways 2 brings:
 This mod supports [AdvTrains Livery Tools](https://content.minetest.net/packages/Marnack/advtrains_livery_tools/). To change the color of a subway car, punch it with the Livery Designer Tool.
 
 ### Setting the outside display text
-The outside displays now show the text from the "Outside Text" field. Version 2.x has [unicode_text](https://content.minetest.net/packages/erlehmann/unicode_text/) support, so thousands of Unicode characters can be used. Just enter the driver stand, select "Onboard Computer," and type in the "Outside Text" text box, as you would for any AdvTrains train.
+The outside displays now show the first line of text from the "Outside Text" field. Version 2.x has [unicode_text](https://content.minetest.net/packages/erlehmann/unicode_text/) support, so thousands of Unicode characters can be used. Just enter the driver stand, select "Onboard Computer," and type in the "Outside Text" text box, as you would for any AdvTrains train.
 
 ## Have any ideas and/or contributions?
 
