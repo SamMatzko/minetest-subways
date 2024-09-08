@@ -5,17 +5,17 @@
 This mod aims to add several unique, real-world subway trains to Minetest's Advanced Trains. New trains will be worked on when I have the time, you can see the [open GitHub issues](https://github.com/SamMatzko/minetest-subways/issues) for a list of the trains that will be added.
 
 > [!WARNING]
-> Unfortunately, the 2.0 update brings breaking changes. If you have a pre-2.0 version installed, be aware that the new subway trains have different names, so any existing Green Subway Wagon or Red Subway Wagon trains will no longer appear correctly.
+> Unfortunately, the 2.x update brings breaking changes. If you have a pre-2.x version installed, be aware that the new subway trains have different names, so any existing Green Subway Wagon or Red Subway Wagon trains will no longer appear correctly.
 
 > [!NOTE]
-> Aliases have now been registered for backwards compatibility with 1.X. However, for the feature to work, you need to use the [AdvTrains patch "Alias for wagon types"](https://lists.sr.ht/~gpcf/advtrains-devel/patches/54786).
+> Aliases have now been registered for backwards compatibility with 1.x. However, for the feature to work, you need to use the [AdvTrains patch "Alias for wagon types"](https://lists.sr.ht/~gpcf/advtrains-devel/patches/54786).
+>
+> The displays are now set using the "Outside Text" field.
 
-## What's different about version 2.0?
-While the trains may look similar at first glance, a lot has changed. Here are some of the biggest new features:
-- Mesh and texture redo to improve quality and detail
+## Features
+Here are some features that Subways 2 brings:
 - Support for [AdvTrains Livery Tools](https://content.minetest.net/packages/Marnack/advtrains_livery_tools/)
 - Exterior displays with expansive Unicode support
-- Drastic under-the-hood code cleanup and refactoring
 - Removal of development assets to a [different repository](https://github.com/SamMatzko/minetest-subways-dev-assets) to reduce package size
 
 ## Usage
@@ -23,7 +23,7 @@ While the trains may look similar at first glance, a lot has changed. Here are s
 This mod supports [AdvTrains Livery Tools](https://content.minetest.net/packages/Marnack/advtrains_livery_tools/). To change the color of a subway car, punch it with the Livery Designer Tool.
 
 ### Setting the outside display text
-The outside text on the trains displays the line, just like the previous version of this mod. However, 2.0 adds [unicode_text](https://content.minetest.net/packages/erlehmann/unicode_text/) support, so thousands of Unicode characters are supported. Just enter the driver stand, select "Onboard Computer," and type in the "Line" text box, as you would for any AdvTrains train.
+The outside displays now show the text from the "Outside Text" field. Version 2.x has [unicode_text](https://content.minetest.net/packages/erlehmann/unicode_text/) support, so thousands of Unicode characters can be used. Just enter the driver stand, select "Onboard Computer," and type in the "Outside Text" text box, as you would for any AdvTrains train.
 
 ## Have any ideas and/or contributions?
 
