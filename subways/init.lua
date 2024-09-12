@@ -264,7 +264,9 @@ function subways.register_subway(name, subway_def, readable_name, inv_image)
                     end
                 else
                     -- Just use the texture that's already there
-                    textures[display.slot] = old_props.textures[display.slot]
+                    if old_props and old_props.textures then
+                        textures[display.slot] = old_props.textures[display.slot]
+                    end
                 end
             end
 
