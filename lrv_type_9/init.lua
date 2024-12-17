@@ -13,13 +13,13 @@ local train_def = {
     displays = {
         {
             background_size = 140,
-            display = "line",
+            display = "outside_first_line",
             offset = {x = 16, y = 2},
             slot = 2,
         },
         {
             background_size = 140,
-            display = "line",
+            display = "outside_first_line",
             offset = {x = 0, y = 15},
             slot = 3,
         },
@@ -219,7 +219,7 @@ local train_middle_def = {
         assign_to_seat_group = {"passenger"},
         is_locomotive = false,
         wagon_span = 1.015,
-        wheel_positions = {-0.6, 0.6},
+        wheel_positions = {0.6, -0.6},
         collisionbox = {
             -1.0, -0.5, -0.7,
             1.0, 2.5, 0.7,
