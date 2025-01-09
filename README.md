@@ -1,3 +1,4 @@
+# This repository has been moved to [Codeberg](https://codeberg.org/SamMatzko/luanti-subways).
 # [Minetest](https://minetest.net/) Subways - [ContentDB](https://content.minetest.net/packages/sylvester_kruin/subways/)
 
 [![ContentDB](https://content.minetest.net/packages/sylvester_kruin/subways/shields/downloads/)](https://content.minetest.net/packages/sylvester_kruin/subways/)
